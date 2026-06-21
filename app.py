@@ -38,6 +38,7 @@ app = Flask(__name__)
 # PENTING: Mengembalikan JSON dengan format yang rapi saat didebug
 app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 
+@app.route('/')
 @app.route('/vectorize', methods=['POST'])
 def vectorize():
     """
