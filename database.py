@@ -156,7 +156,7 @@ def save_package_vector(package_id, combined_features, tfidf_vector_list, vocabu
 def save_recommendation_result(preference_id, session_id, results_list, scores_list):
     """
     Menyimpan hasil rekomendasi ke tabel recommendations.
-    Jika preference_id sudah ada di tabel, lakukan UPDATE pada kolom recommended_packages & similarity_scores.
+    Jika preference_id sudah ada di tabel, lakukan UPDATE pada kolom results & similarity_scores.
     Jika belum ada record, lakukan INSERT.
     """
     # 1. Cek apakah record sudah ada
@@ -174,7 +174,7 @@ def save_recommendation_result(preference_id, session_id, results_list, scores_l
                 update_query = text("""
                     UPDATE recommendations
                     SET 
-                        recommended_packages = :results,
+                        results = :results,
                         similarity_scores = :scores,
                         session_id = :session_id,
                         updated_at = NOW()
@@ -190,7 +190,7 @@ def save_recommendation_result(preference_id, session_id, results_list, scores_l
             else:
                 # Lakukan INSERT
                 insert_query = text("""
-                    INSERT INTO recommendations (preference_id, session_id, recommended_packages, similarity_scores, created_at, updated_at)
+                    INSERT INTO recommendations (preference_id, session_id, results, similarity_scores, created_at, updated_at)
                     VALUES (:preference_id, :session_id, :results, :scores, NOW(), NOW())
                 """)
                 conn.execute(insert_query, {
