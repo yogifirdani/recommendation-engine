@@ -27,6 +27,7 @@ def fit_and_save_vectorizer(corpus_list):
         
     logger.info("Mulai melakukan pelatihan (fitting) TfidfVectorizer...")
     
+    # INIBAGIAN TF (TERM FREQUENCY)
     # Inisialisasi vectorizer dengan parameter yang ditentukan
     # sublinear_tf=True membantu menormalkan kata-kata yang muncul sangat sering
     # ngram_range=(1, 2) mengizinkan kombinasi 2 kata (Bigram) agar konteks angka tidak tertukar
@@ -39,6 +40,7 @@ def fit_and_save_vectorizer(corpus_list):
     )
     
     # Melatih model dan mentransformasikannya ke representasi matriks
+    # INI BAGIAN IDF (INVERSE DOCUMENT FREQUENCY)
     tfidf_matrix = vectorizer.fit_transform(corpus_list)
     
     # Menyimpan model ke berkas .pkl

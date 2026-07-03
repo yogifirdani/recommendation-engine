@@ -11,7 +11,8 @@ from database import (
     get_preference_by_id,
     get_all_vectors,
     save_package_vector,
-    save_recommendation_result
+    save_recommendation_result,
+    clear_package_vectors
 )
 from preprocessor import (
     build_combined_features,
@@ -72,7 +73,10 @@ def vectorize():
         vocab_json_str = json.dumps(vectorizer.vocabulary_, sort_keys=True)
         vocab_hash = hashlib.sha256(vocab_json_str.encode('utf-8')).hexdigest()
         
-        # 5. Konversi matriks TF-IDF sparse menjadi list rapat dan simpan ke database (Upsert)
+        # 5. Hapus semua vektor lama agar tidak tercampur dengan vektor baru yang berbeda dimensi
+        clear_package_vectors()
+        
+        # 6. Konversi matriks TF-IDF sparse menjadi list rapat dan simpan ke database (Upsert)
         for i, pkg_id in enumerate(package_ids):
             # Ubah baris sparse matrix ke dense list
             vector_dense = tfidf_matrix[i].toarray()[0].tolist()
@@ -203,7 +207,8 @@ def recommend():
                 })
                 
         # 11. Simpan hasil rekomendasi kembali ke tabel MySQL 'recommendations'
-        save_recommendation_result(preference_id, results_list, scores_dict)
+        session_id = preference.get('session_id', 'unknown')
+        save_recommendation_result(preference_id, session_id, results_list, scores_dict)
         
         # 12. Kirim respon hasil rekomendasi
         return jsonify({

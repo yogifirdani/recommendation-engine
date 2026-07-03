@@ -113,6 +113,18 @@ def get_all_vectors():
         logger.error(f"Gagal mengambil data vektor paket wisata: {str(e)}")
         raise e
 
+def clear_package_vectors():
+    """Menghapus semua data di tabel package_vectors sebelum dilakukan vektorisasi ulang."""
+    query = text("DELETE FROM package_vectors")
+    try:
+        with get_connection() as conn:
+            conn.execute(query)
+            conn.commit()
+        logger.info("Berhasil mengosongkan tabel package_vectors.")
+    except Exception as e:
+        logger.error(f"Gagal mengosongkan tabel package_vectors: {str(e)}")
+        raise e
+
 def save_package_vector(package_id, combined_features, tfidf_vector_list, vocabulary_hash=None):
     """
     Menyimpan atau mengupdate vektor TF-IDF dari paket wisata ke database (UPSERT).
@@ -141,10 +153,10 @@ def save_package_vector(package_id, combined_features, tfidf_vector_list, vocabu
         logger.error(f"Gagal menyimpan vektor paket ID {package_id}: {str(e)}")
         raise e
 
-def save_recommendation_result(preference_id, results_list, scores_list):
+def save_recommendation_result(preference_id, session_id, results_list, scores_list):
     """
     Menyimpan hasil rekomendasi ke tabel recommendations.
-    Jika preference_id sudah ada di tabel, lakukan UPDATE pada kolom results & similarity_scores.
+    Jika preference_id sudah ada di tabel, lakukan UPDATE pada kolom recommended_packages & similarity_scores.
     Jika belum ada record, lakukan INSERT.
     """
     # 1. Cek apakah record sudah ada
@@ -162,13 +174,15 @@ def save_recommendation_result(preference_id, results_list, scores_list):
                 update_query = text("""
                     UPDATE recommendations
                     SET 
-                        results = :results,
+                        recommended_packages = :results,
                         similarity_scores = :scores,
+                        session_id = :session_id,
                         updated_at = NOW()
                     WHERE preference_id = :preference_id
                 """)
                 conn.execute(update_query, {
                     "preference_id": preference_id,
+                    "session_id": session_id,
                     "results": results_json,
                     "scores": scores_json
                 })
@@ -176,11 +190,12 @@ def save_recommendation_result(preference_id, results_list, scores_list):
             else:
                 # Lakukan INSERT
                 insert_query = text("""
-                    INSERT INTO recommendations (preference_id, results, similarity_scores, created_at, updated_at)
-                    VALUES (:preference_id, :results, :scores, NOW(), NOW())
+                    INSERT INTO recommendations (preference_id, session_id, recommended_packages, similarity_scores, created_at, updated_at)
+                    VALUES (:preference_id, :session_id, :results, :scores, NOW(), NOW())
                 """)
                 conn.execute(insert_query, {
                     "preference_id": preference_id,
+                    "session_id": session_id,
                     "results": results_json,
                     "scores": scores_json
                 })

@@ -77,17 +77,33 @@ def remove_stopwords(text):
     filtered_words = [word for word in words if word not in all_stopwords]
     return " ".join(filtered_words)
 
+# Daftar kata pengecualian yang tidak boleh di-stem (nama destinasi/tempat)
+stemming_exemptions = set([
+    "baluran", "djawatan", "tabuhan", "menjangan", 
+    "ijen", "wurung", "merah", "banyuwangi"
+])
+
 def stemming(text):
     """
     Mengubah kata berimbuhan menjadi kata dasar menggunakan Sastrawi.
+    Pengecualian diberikan untuk kata-kata khusus (nama destinasi).
     """
     if not text:
         return ""
     try:
-        return stemmer.stem(text)
+        # Pisahkan kata dan cek satu per satu
+        words = text.split()
+        stemmed_words = []
+        for word in words:
+            if word in stemming_exemptions:
+                stemmed_words.append(word)
+            else:
+                stemmed_words.append(stemmer.stem(word))
+        return " ".join(stemmed_words)
     except Exception as e:
         logger.warning(f"Gagal melakukan stemming: {str(e)}")
         return text
+
 
 def tokenize(text):
     """
