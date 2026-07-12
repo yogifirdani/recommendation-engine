@@ -1,0 +1,21 @@
+
+================================================================================
+=== PERHITUNGAN COSINE SIMILARITY ===
+================================================================================
+KEINGINAN (PREFERENSI) WISATAWAN:
+Kategori: Nature Trip, Budget: Rp 300000
+Durasi: 1 Hari, Fasilitas: Mobil, tiket masuk, guide
+Deskripsi: saya ingin melihat sunrise di pagi hari
+
++------------+-----------------------------------------------+-----------------+
+| RANKING    | NAMA PAKET WISATA                             | SKOR COSINE     |
++------------+-----------------------------------------------+-----------------+
+| 1          | Kawah Ijen Banyuwangi (Blue Fire)             | 0.1697          |
+| 2          | Kawah Wurung Trip                             | 0.1172          |
+| 3          | Tabuhan & Menjangan Island                    | 0.0672          |
+| 4          | Baluran (Afrika Van Java)                     | 0.0588          |
+| 5          | Djawatan, Green Island, Pulau Merah           | 0.0266          |
++------------+-----------------------------------------------+-----------------+
+
+* Catatan: Skor semakin mendekati 1.0000 berarti semakin cocok.
+

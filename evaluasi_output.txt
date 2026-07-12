@@ -1,0 +1,22 @@
+=== DAFTAR REFERENSI PAKET WISATA ===
+ID 1 : Kawah Ijen Banyuwangi (Blue Fire)
+ID 3 : Tabuhan & Menjangan Island
+ID 7 : Baluran (Afrika Van Java)
+ID 9 : Kawah Wurung Trip
+ID 12: Djawatan, Green Island, Pulau Merah
+================================================================================
+
+=== TABEL EVALUASI METRIK ===
+
+      Query/Skenario Precision Recall F1-Score
+   Sunrise Pagi Hari      0.40   1.00     0.57
+ Pantai & Snorkeling      0.20   1.00     0.33
+   Savana Ala Afrika      0.20   1.00     0.33
+Hutan Magis & Sunset      0.20   1.00     0.33
+Bukit Hijau & Rumput      0.20   1.00     0.33
+               Total      1.20   5.00     1.90
+       Rata-rata (%)     24.00 100.00    38.10
+
+
+=== DRAFT NARASI KESIMPULAN ===
+Dari pengujian terhadap sistem dengan memasukkan preferensi yang berbeda-beda, dihasilkan hasil yang bervariasi antar skenario dengan skor rata-rata precision 24.00%, recall 100.00%, dan F1-score 38.10%. Keterangan Top-5 dan target (Ground Truth) yang digunakan mengacu pada daftar referensi paket wisata aktif (Kawah Ijen, Tabuhan, Baluran, Kawah Wurung, Djawatan).
