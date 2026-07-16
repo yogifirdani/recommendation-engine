@@ -1,0 +1,171 @@
+ 
+INTL.  JOURNAL  ON ICT  VOL.  9, NO.  2, DEC 2023 11 
+ 
+ 
+B. Experiment Results  
+In this study, a content -based filtering system was tested to evaluate the performance of the recommendation 
+model in providing film recommendations to users. The testing was conducted using a film dataset consisting 
+of genres and related keyword information. This system testing involved selecting relevant parameters to 
+measure t he quality of recommendations. The parameters used include precision, recall, and f1 -score. Precision 
+measures the extent to which the recommendations align with user preferences, while recall describes how 
+many relevant recommendations can be found by the  users. The F1 -Score combines these two metrics to provide 
+an overall view of the system's performance.  
+Furthermore, the testing process involved several different testing scenarios. Firstly, testing was conducted 
+by considering the utilization of genres or keywords to provide film recommendations. Next, the 
+recommendation model was evaluated using a combina tion of  genre and keyword information. Subsequently, 
+a comparison was made between the top -10 recommendations and the top -20 recommendations for all 
+scenarios. The top -10 recommendations represent a model that consists of 10 recommendations based on 
+attrib ute similarity, and the same applies to the top -20 recommendations. In order to obtain relevant 
+benchmarks, the results were also compared with previous testing experiments. Table III presents the results of 
+the recall, precision, and f1 -score metrics calculation.  
+TABLE VII 
+SYSTEM  EVALUATION  RESULTS  
+Input  Scenario  Top-10 Recommendation  Top-20 Recommendation  
+Recall  Precision  F1-Score  Recall  Precision  F1-Score  
+Genres  Recommendation  
+based on  
+initial rating user.  0.06 0.40 0.09 0.09 0.34 0.13 
+Keyword  0.05 0.06 0.01 0.09 0.04 0.01 
+Genres + Keyword  0.01 0.14 0.02 0.01 0.11 0.02 
+Genres  Recommendation  
+based on  
+user preferences  0.10 0.30 0.12 0.15 0.25 0.15 
+Keyword  0.06 0.08 0.09 0.01 0.08 0.01 
+Genres + Keyword   .02 0.10 0.03 0.03  0.08 0.04 
+C. Analysis of Experiment Results  
+In this evaluation, we assessed the performance of the system by considering performance metrics, namely 
+recall, precision, and F1 -score, to evaluate the system's ability to provide relevant recommendations to users. 
+The test results reveal that there is a need to enhance the p erformance of the recommendation system. In the 
+genre -based recommendation scenario, we observed a recall of 0.06, precision of 0.4, and F1 -score of 0.09 for 
+the top 10 recommendations, and a recall of 0.09, precision of 0.34, and F1 -score of 0.13 for the top 20 
+recommendations. Despite precision being relatively higher than recall, these figures remain generally low. 
+Similar results were obtained in the keyword -based recommendation scenario, where the recall, precision, and 
+F1-score were 0.05, 0.06, and 0. 01, respectively, for the top 10 recommendations, and 0.09, 0.04, and 0.01, 
+respectively, for the top 20 recommendations. In the combined scenario involving both genre and keywords, 
+the evaluation results demonstrated a slight improvement compared to the k eyword -only scenario, but it still 
+fell short compared to the genre -only scenario. The recall, precision, and F1 -score for the top 10 
+recommendations were 0.01, 0.14, and 0.02, respectively, and for the top 20 recommendations were 0.01, 0.11, 
+and 0.02, res pectively. These results indicate that the system still has limitations in accurately remembering the 
+correct items and providing accurate recommendations to users.  
+In the second evaluation, when user preferences were incorporated into the recommendation scenarios, the 
+results showed an increase in performance. In the genre -based recommendation scenario with user preferences, 
+the recall, precision, and F1 -score for th e top 10 recommendations were 0.1, 0.3, and 0.12, respectively, and for ARMADHANI  HIRO  JUNI  PERMANA  ET.AL.  
+MOVIE RECOMMENDATION SYSTEM BASED ON SYNOPSIS USING CONTENT -BASED FILTERING WITH TF-IDF  AND 
+COSINE SIMILARITY  12 
+ 
+ 
+the top 20 recommendations were 0.15, 0.25, and 0.15, respectively. These results exhibited significant 
+improvement compared to the previous scenario. However, further improvements are necessary to deliver more 
+relevant recommendations. In the keyword -based recommendation scenario with user preferences, the 
+evaluation results showed a recall of 0.06, precision of 0.08, and F1 -score of 0.09 for the top 10 
+recommendations, and a recall of 0.01, precision of 0.08, and F1 -score of 0.01 for the top 20 recommenda tions. 
+Although there was a slight improvement compared to the previous scenario, these figures still indicate 
+limitations in accurately recalling the relevant items and providing accurate recommendations. The combined 
+scenario involving genre, keywords, a nd user preferences also demonstrated slightly better results than using 
+keywords alone. In this scenario, the recall, precision, and F1 -score for the top 10 recommendations were 0.02, 
+0.1, and 0.03, respectively, and for the top 20 recommendations were 0. 03, 0.08, and 0.04, respectively, showing 
+a significant improvement compared to the previous scenario. However, despite the notable performance 
+improvement, the system still requires further refinement to provide better recommendations.  
+Overall, the performance of the f1 -score calculations did not reach 0.1. In the scenario using keywords, the 
+overall precision, recall, and f1 -score values did not exceed 0.1. This is due to the small overlap of keywords 
+generated during the keyword extrac tion process between different films. As a result, it becomes challenging to 
+find film recommendations with similar keywords. Meanwhile, in the scenario using genres, only the f1 -score 
+did not reach 0.1. This is because many films share similar genres but have significant differences in terms of 
+plot, storyline, and other aspects. As a result, there are multiple high similarity scores that lead to suboptimal 
+recommendations.   
+From the above testing results, it is evident that scenarios involving user preferences tend to yield better 
+performance compared to scenarios relying solely on genre or keyword information. The combination of genre 
+and keyword in the recommendation scenar io also produces slightly better results than the keyword -only 
+scenario. However, all scenarios still have room for improvement, particularly in terms of recall and f1 -score. 
+Therefore, it can be concluded that the use of keywords with the Gensim library i s not suitable for building a 
+film recommendation system.  
+ 
+V. CONCLUSION  
+The results of this study highlight the limitations of the evaluated recommendation system in providing 
+accurate and relevant recommendations to users. Several factors contribute to the observed challenges, 
+including the scarcity of relevant information in  the reference dataset, the inherent complexity of user 
+preferences and patterns, and the need for more advanced data processing and analysis techniques. To improve 
+the performance of the recommendation system, future research should focus on expanding and  enriching the 
+reference dataset with comprehensive and pertinent information. This will enable the system to generate more 
+precise and tailored recommendations.  
+Additionally, the adoption of advanced algorithms and techniques can enhance the system's ability to capture 
+intricate user preferences and patterns, leading to improved recommendation accuracy. Furthermore, integrating 
+multiple recommendation approaches, such as combining content -based and collaborative filtering methods, 
+holds promise for enhancing the recommendation system's capabilities. This hybrid approach can leverage the 
+strengths of each method and address the limitations of individual approaches. Moreover, incorporating 
+additional personalization factors into the recommendation process can further refine the recommendations and 
+cater to the unique preferences of each user. To gain a comprehensive understanding of the recommendation 
+system's perform ance, future studies should undertake rigorous testing using diverse datasets and carefully 
+consider various scenarios. This will provide valuable insights into the system's strengths, weaknesses, and its 
+performance across different user profiles and cont exts. Ultimately, the overarching objective of future research 
+endeavors should center on developing a robust and effective recommendation system that consistently delivers 
+accurate and relevant recommendations to users. By enhancing the user experience an d satisfaction in accessing 
+recommended content, such a system can significantly contribute to the advancement of the entertainment 
+industry and improve the overall user engagement and enjoyment.   
+INTL.  JOURNAL  ON ICT  VOL.  9, NO.  2, DEC 2023 13 
+ 
+ 
+ 
+REFERENCES  
+[1] S. Chakrabarti et al. , “Annual Computing and Communication Workshop and Conference (CCWC) ”, 
+2018 IEEE 8th, 8th-10th January, 2018, University of Nevada, Las Vegas, USA.  
+[2] S. Halder, A. M. J. Sarkar, and Y. K. Lee, “Movie recommendation system based on movie swarm,” in 
+Proceedings - 2nd International Conference on Cloud and Green Computing and 2nd International 
+Conference on Social Computing and Its Applications, CGC/SCA 2012 , 2012, pp. 804 –809. doi: 
+10.1109/CGC.2012.121.  
+[3] Khan, E. M., Mukta, M. S. H., Ali, M. E., & Mahmud, J. (2020). ”Predicting users’ movie preference 
+and rating behavior from personality and values ”. ACM Transactions on Interactive Intelligent Systems 
+(TiiS) , 10(3), 1 -25 
+[4] S. Aditya Narayan, H. Kumaar, D. Sathya Narayanan, S. Srikumaran, and S. Veni, “Content -based 
+Movie Recommender System Using Keywords and Plot Overview,” 2022 International Conference on 
+Wireless Communications, Signal Processing and Networking, WiSPNET 2022 , pp. 49 –53, 2022, doi: 
+10.1109/WISPNET54241.2022.9767172.  
+[5] P. Sirisha, G. L. Devi, and N. Ramesh, “Plot -Topic based Movie Recommendation System using 
+WordNet,” Proceedings of the 2022 9th International Conference on Computing for Sustainable Global 
+Development, INDIACom 2022 , pp. 45 –49, 2022, doi: 10.23919/INDIACOM54597.2022.9763244.  
+[6] Lops, P., De Gemmis, M., & Semeraro, G. (2011). ‘Content -based recommender systems: State of the 
+art and trends ’. Recommender systems handbook, 73 -105. 
+[7] R. H. Singh, S. Maurya, T. Tripathi, T. Narula, and G. Srivastav, “Movie Recommendation System 
+using Cosine Similarity and KNN,” Int J Eng Adv Technol , vol. 9, no. 5, pp. 556 –559, Jun. 2020, doi: 
+10.35940/ijeat.E9666.069520.  
+[8] H. Bhowmick, A. Chatterjee, and J. Sen, “Comprehensive Movie Recommendation System.”  
+[9] Domeniconi, G., Moro, G., Pagliarani, A., Pasini, K., & Pasolini, R. (2016, February). “Job 
+recommendation from semantic similarity of LinkedIn users’ skills ”. In International Conference on 
+Pattern Recognition Applications and Methods  (Vol. 2, pp. 270 -277). SciTePress  
+[10] M. Chiny, M. Chihab, O. Bencharef, and Y. Chihab, “Netflix Recommendation System based on TF -
+IDF and Cosine Similarity Algorithms,” Scitepress, May 2022, pp. 15 –20. doi: 
+10.5220/0010727500003101.  
+[11] Z. Wang, K. Hahn, Y. Kim, S. Song, and J. M. Seo, “A News-Topic Recommender System Based on 
+Keywords Extraction,” Multimed Tools Appl , vol. 77, no. 4, pp. 4339 –4353, Feb. 2018, doi: 
+10.1007/s11042 -017-5513 -0. 
+[12] C. H. Liao, L. X. Chen, J. C. Yang, and S. M. Yuan, “A Photo Post Recommendation System Based on 
+Topic Model for Improving Facebook Fan Page Engagement,” Symmetry (Basel) , vol. 12, no. 7, Jul. 
+2020, doi: 10.3390/sym12071105.  
+[13] M. Mahendra Wiputra and Y. Jauhari Shandi, “P erancangan  Sistem  Rekomendasi  Menggunakan  
+Metode  Collaborative  Filtering  Dengan  Studi Kasus Perancangan  Website  Rekomendasi  Film”, 2021.  ARMADHANI  HIRO  JUNI  PERMANA  ET.AL.  
+MOVIE RECOMMENDATION SYSTEM BASED ON SYNOPSIS USING CONTENT -BASED FILTERING WITH TF-IDF  AND 
+COSINE SIMILARITY  14 
+ 
+ 
+[14] F. Batari Agung Larasati and H. Februariyanti, “Sistem  Rekomendasi  Product  Emina  Cosmetics  Dengan  
+Menggunakan  Metode  Content  - Based Filtering ”, Jurnal Manajemen Informatika & Sistem Informasi , 
+2021, doi : https://doi.org/10.36595/misi.v4i1.250 . 
+[15] J. Ben Schafer, J. Konstan, and J. Riedl, “Recommender Systems in E -Commerce.” [Online]. Available: 
+www.reel.com  
+[16] H.-C. Chen and A. L. P. Chen, “A Music Recommendation System Based on Music and User 
+Grouping” , 2005.  
+[17] P. B. Thorat, R. M. Goudar, and S. Barve, “Survey on Collaborative Filtering, Content -based Filtering 
+and Hybrid Recommendation System,” 2015.  
+[18] Isinkaye, F. O., Folajimi, Y. O., & Ojokoh, B. A. (2015). Recommendation systems: Principles, 
+methods and evaluation.  Egyptian informatics journal,  16(3), 261 -273. 
+[19] X. Li, “A Method for Extracting Keywords from English Literature Based on Location Feature 
+Weighting,” in International Conference on Communication Technology Proceedings, ICCT , Institute 
+of Electrical and Electronics Engineers Inc., Oct. 2020, pp. 1457 –1460. doi: 
+10.1109/ICCT50939.2020.9295829.  
+[20] Řehůřek, Radim, and Petr Sojka. "Software framework for topic modelling with large corpora." (2010).  
+[21] Su, X., & Khoshgoftaar, T. M. (2009). “A survey of collaborative filtering techniques ”. Advances in 
+artificial intelligence , 2009.  
+[22] M. J. M okarrama , S. K hatun , and M. S. A refin , “A content -based recommender system for choosing 
+universities,” Turkish Journal of Electrical Engineering and Computer Sciences , vol. 28, no. 4, pp. 
+2128 –2142, Jul. 2020, doi: 10.3906/ELK -1911 -37. 
+ 

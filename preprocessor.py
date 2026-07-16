@@ -267,8 +267,12 @@ def standardize_duration(duration_str):
         tags.append("durasi7jam")
     if "1 day" in s or "1 hari" in s or "one day" in s or "1d" in s:
         tags.append("durasi1day")
+    if "2d1n" in s or "2 hari" in s or "2 day" in s or "2d" in s:
+        tags.append("durasi2d1n")
     if "3d2n" in s or "3 hari" in s or "3 day" in s or "3d" in s:
         tags.append("durasi3d2n")
+    if "4d3n" in s or "4 hari" in s or "4 day" in s or "4d" in s:
+        tags.append("durasi4d3n")
     return " ".join(tags) if tags else s
 
 def build_combined_features(row):

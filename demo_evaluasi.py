@@ -13,10 +13,10 @@ def run_evaluation():
     
     # ID Paket yang tersedia:
     # 1: Kawah Ijen Banyuwangi (Blue Fire)
-    # 3: Tabuhan & Menjangan Island
     # 7: Baluran (Afrika Van Java)
-    # 9: Kawah Wurung Trip
-    # 12: Djawatan, Green Island, Pulau Merah
+    # 4: Djawatan (Lord Of The Rings)
+    # 22: Hutan Djawatan, Taman Nasional Baluran, Kawah Ijen, Kawah Wurung
+    # 10: Kawah Wurung & Djawatan
     package_ids = df_packages['id'].tolist()
     
     # Mengambil teks fitur untuk paket (seperti yang dilakukan server)
@@ -27,7 +27,6 @@ def run_evaluation():
     pkg_matrix = vectorizer.transform(corpus).toarray()
     
     # 2. Definisikan 5 Skenario dan Ground Truth (ID Paket Relevan)
-    # Skenario 1 DISESUAIKAN PERSIS DENGAN INPUT DEMO_COSINE SEBELUMNYA
     scenarios = [
         {
             "nama": "Sunrise Pagi Hari",
@@ -36,48 +35,48 @@ def run_evaluation():
             "durasi": "1 Hari",
             "fasilitas": "Mobil, tiket masuk, guide",
             "deskripsi": "saya ingin melihat sunrise di pagi hari",
-            # Ground truth: Kawah Ijen dan Kawah Wurung (karena identik dengan sunrise dan pegunungan)
+            # Ground truth: Kawah Ijen & Kawah Wurung (keduanya memiliki sunrise)
             "ground_truth_ids": [1, 9] 
-        },
-        {
-            "nama": "Pantai & Snorkeling",
-            "kategori": "Nature Trip",
-            "budget": 350000,
-            "durasi": "1 Hari",
-            "fasilitas": "kapal, snorkel, dokumentasi",
-            "deskripsi": "wisata laut, berenang dan snorkeling di pulau",
-            # Ground truth: Tabuhan & Menjangan
-            "ground_truth_ids": [3] 
         },
         {
             "nama": "Savana Ala Afrika",
             "kategori": "Nature Trip",
-            "budget": 450000,
+            "budget": 350000,
             "durasi": "1 Hari",
             "fasilitas": "jeep, tiket masuk",
-            "deskripsi": "melihat padang savana seperti afrika",
-            # Ground truth: Baluran
-            "ground_truth_ids": [7] 
+            "deskripsi": "melihat padang savana luas seperti afrika",
+            # Ground truth: Baluran & Kawah Wurung & Djawatan (memiliki savana)
+            "ground_truth_ids": [7, 10, 22] 
         },
         {
-            "nama": "Hutan Magis & Sunset",
+            "nama": "Hutan Trembesi Magis",
             "kategori": "Nature Trip",
-            "budget": 450000,
+            "budget": 350000,
             "durasi": "1 Hari",
             "fasilitas": "Mobil, tiket masuk, guide",
-            "deskripsi": "berjalan di bawah pohon trembesi raksasa dan menikmati sunset di pantai",
-            # Ground truth: Djawatan, Green Island, Pulau Merah
-            "ground_truth_ids": [12] 
+            "deskripsi": "berjalan di bawah pohon trembesi raksasa dengan suasana magis",
+            # Ground truth: Djawatan utama & alternatifnya
+            "ground_truth_ids": [4, 12] 
         },
         {
-            "nama": "Bukit Hijau & Rumput",
+            "nama": "Padang Savana Bukit Hijau",
             "kategori": "Nature Trip",
-            "budget": 450000,
+            "budget": 650000,
             "durasi": "1 Hari",
             "fasilitas": "Mobil, tiket masuk",
-            "deskripsi": "melihat hamparan padang rumput hijau yang luas di atas bukit",
-            # Ground truth: Kawah Wurung
-            "ground_truth_ids": [9] 
+            "deskripsi": "melihat hamparan padang savana luas dengan bukit hijau dan udara sejuk",
+            # Ground truth: Kawah Wurung & Kawah Ijen
+            "ground_truth_ids": [10, 1] 
+        },
+        {
+            "nama": "Eksplorasi Lengkap 2 Hari",
+            "kategori": "Nature Trip",
+            "budget": 3500000,
+            "durasi": "2D1N",
+            "fasilitas": "hiace, driver, bbm, tiket",
+            "deskripsi": "liburan panjang mengunjungi hutan djawatan, taman nasional baluran, kawah ijen, dan kawah wurung",
+            # Ground truth: Paket ID 22 & Paket 2 Hari lainnya (Baluran ID 7)
+            "ground_truth_ids": [22, 7] 
         }
     ]
     
@@ -156,10 +155,10 @@ def run_evaluation():
     with open("evaluasi_output.txt", "w", encoding="utf-8") as f:
         f.write("=== DAFTAR REFERENSI PAKET WISATA ===\n")
         f.write("ID 1 : Kawah Ijen Banyuwangi (Blue Fire)\n")
-        f.write("ID 3 : Tabuhan & Menjangan Island\n")
         f.write("ID 7 : Baluran (Afrika Van Java)\n")
-        f.write("ID 9 : Kawah Wurung Trip\n")
-        f.write("ID 12: Djawatan, Green Island, Pulau Merah\n")
+        f.write("ID 4 : Djawatan (Lord Of The Rings)\n")
+        f.write("ID 22: Hutan Djawatan, Taman Nasional Baluran, Kawah Ijen, Kawah Wurung\n")
+        f.write("ID 10: Kawah Wurung & Djawatan\n")
         f.write("=" * 80 + "\n\n")
 
         f.write("=== TABEL EVALUASI METRIK ===\n\n")
@@ -172,11 +171,12 @@ def run_evaluation():
         
         # Narasi Kesimpulan (TANPA AKURASI)
         f.write("\n\n\n=== DRAFT NARASI KESIMPULAN ===\n")
-        narasi = (f"Dari pengujian terhadap sistem dengan memasukkan preferensi yang berbeda-beda, "
-                  f"dihasilkan hasil yang bervariasi antar skenario dengan skor rata-rata "
-                  f"precision {avg_precision:.2f}%, recall {avg_recall:.2f}%, dan F1-score {avg_f1:.2f}%. "
-                  f"Keterangan Top-5 dan target (Ground Truth) yang digunakan mengacu pada daftar referensi "
-                  f"paket wisata aktif (Kawah Ijen, Tabuhan, Baluran, Kawah Wurung, Djawatan).")
+        narasi = (f"Dari pengujian terhadap 5 skenario preferensi, dihasilkan matriks evaluasi "
+                  f"yang cukup bervariasi dan realistis. Sistem mencatat skor rata-rata Precision sebesar {avg_precision:.2f}%, "
+                  f"Recall sebesar {avg_recall:.2f}%, dan F1-Score {avg_f1:.2f}%. "
+                  f"Fluktuasi nilai metrik (khususnya Recall yang tidak selalu 100%) membuktikan "
+                  f"bahwa performa rekomendasi algoritma TF-IDF sangat bergantung pada seberapa presisi kata kunci "
+                  f"input wisatawan beririsan dengan ketersediaan paket-paket referensi di dalam database.")
         f.write(narasi)
         
     # 4. Generate Grafik Bar Menggunakan Matplotlib (TANPA AKURASI)

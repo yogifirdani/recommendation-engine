@@ -1,0 +1,119 @@
+# Hasil Eksekusi Tabel Rekomendasi
+
+Berikut adalah data yang di-generate langsung dari sistem untuk laporan Anda.
+
+---
+
+## 4.1.2 Hasil Preprocessing Data (5 Paket Wisata)
+
+**Tabel 4.5 Hasil Case Folding**
+
+| Nama Paket | Sebelum Diproses | Hasil Case Folding |
+| :--- | :--- | :--- |
+| **Kawah Ijen Banyuwangi (Blue Fire)** | `Ekonomis Trip None budgetbracket250k durasi1day  Tiket Masuk, Mobil, Maker Gass,   Menikmati indah nya kawah belerang dengan api birunya dan menikmati sunrise di punjak kawah ijen Menikmati indah nya kawah belerang dengan api birunya dan menikmati sunrise di punjak kawah ijen Menikmati indah nya kawah belerang dengan api birunya dan menikmati sunrise di punjak kawah ijen` | `ekonomis trip none budgetbracket250k durasi1day tiket masuk mobil maker gass menikmati indah nya kawah belerang dengan api birunya dan menikmati sunrise di punjak kawah ijen menikmati indah nya kawah belerang dengan api birunya dan menikmati sunrise di punjak kawah ijen menikmati indah nya kawah belerang dengan api birunya dan menikmati sunrise di punjak kawah ijen` |
+| **Djawatan (Lord Of The Rings)** | `Ekonomis Trip Nature Trip budgetbracket300k durasi7jam  Transportasi Jeep / trooper selama tour Air mineral Izin dan tiket masuk wisata Guide   Menikmati indahnya pohon trembesi yang dikenal dengan sebutan Lord Of The Rings Menikmati indahnya pohon trembesi yang dikenal dengan sebutan Lord Of The Rings Menikmati indahnya pohon trembesi yang dikenal dengan sebutan Lord Of The Rings` | `ekonomis trip nature trip budgetbracket300k durasi7jam transportasi jeep trooper selama tour air mineral izin dan tiket masuk wisata guide menikmati indahnya pohon trembesi yang dikenal dengan sebutan lord of the rings menikmati indahnya pohon trembesi yang dikenal dengan sebutan lord of the rings menikmati indahnya pohon trembesi yang dikenal dengan sebutan lord of the rings` |
+| **Baluran (Afrika Van Java)** | `Ekonomis Trip Nature Trip budgetbracket300k durasi7jam  Transportasi Jeep / trooper selama tour Air mineral Izin dan tiket masuk wisata Guide   Menikmati indahnya savana ( Afrika Van Java ) dan pantai bama Menikmati indahnya savana ( Afrika Van Java ) dan pantai bama Menikmati indahnya savana ( Afrika Van Java ) dan pantai bama` | `ekonomis trip nature trip budgetbracket300k durasi7jam transportasi jeep trooper selama tour air mineral izin dan tiket masuk wisata guide menikmati indahnya savana afrika van java dan pantai bama menikmati indahnya savana afrika van java dan pantai bama menikmati indahnya savana afrika van java dan pantai bama` |
+| **Kawah Wurung & Djawatan** | `Ekonomis Trip Nature Trip budgetbracket600k durasi1day  - Transportasi Jeep selama tour - Air mineral - Izin dan tiket masuk wisata - Guide   Menikmati padang savana luas dengan bukit hijau indah dan udara sejuk alami.,  dan menikmati hutan trembesi rindang dengan suasana magis, teduh, dan spot foto yang menarik. Menikmati padang savana luas dengan bukit hijau indah dan udara sejuk alami.,  dan menikmati hutan trembesi rindang dengan suasana magis, teduh, dan spot foto yang menarik. Menikmati padang savana luas dengan bukit hijau indah dan udara sejuk alami.,  dan menikmati hutan trembesi rindang dengan suasana magis, teduh, dan spot foto yang menarik.` | `ekonomis trip nature trip budgetbracket600k durasi1day transportasi jeep selama tour air mineral izin dan tiket masuk wisata guide menikmati padang savana luas dengan bukit hijau indah dan udara sejuk alami dan menikmati hutan trembesi rindang dengan suasana magis teduh dan spot foto yang menarik menikmati padang savana luas dengan bukit hijau indah dan udara sejuk alami dan menikmati hutan trembesi rindang dengan suasana magis teduh dan spot foto yang menarik menikmati padang savana luas dengan bukit hijau indah dan udara sejuk alami dan menikmati hutan trembesi rindang dengan suasana magis teduh dan spot foto yang menarik` |
+| **Hutan Djawatan, Taman Nasional Baluran, Kawah Ijen, Kawah Wurung** | `Ekonomis Trip Nature Trip budgetbracket3000k 2d1n  Guide Mobil selama trip (1-4 pax pakai Avanza/Xenia, 5-6 pakai Innova, 7-12 pakai Hiace) Driver & BBM Semua Tiket Masuk Air mineral   Menikmati hutan magis Djawatan, savana luas Baluran dengan satwa liar, serta Kawah Ijen dan Kawah Wurung yang memukau. Menikmati hutan magis Djawatan, savana luas Baluran dengan satwa liar, serta Kawah Ijen dan Kawah Wurung yang memukau. Menikmati hutan magis Djawatan, savana luas Baluran dengan satwa liar, serta Kawah Ijen dan Kawah Wurung yang memukau.` | `ekonomis trip nature trip budgetbracket3000k 2d1n guide mobil selama trip 1 4 pax pakai avanza xenia 5 6 pakai innova 7 12 pakai hiace driver bbm semua tiket masuk air mineral menikmati hutan magis djawatan savana luas baluran dengan satwa liar serta kawah ijen dan kawah wurung yang memukau menikmati hutan magis djawatan savana luas baluran dengan satwa liar serta kawah ijen dan kawah wurung yang memukau menikmati hutan magis djawatan savana luas baluran dengan satwa liar serta kawah ijen dan kawah wurung yang memukau` |
+
+
+**Tabel 4.7 Hasil Stopword Removal**
+
+| Nama Paket | Sebelum Diproses | Hasil Stopword Removal |
+| :--- | :--- | :--- |
+| **Kawah Ijen Banyuwangi (Blue Fire)** | `ekonomis trip none budgetbracket250k durasi1day tiket masuk mobil maker gass menikmati indah nya kawah belerang dengan api birunya dan menikmati sunrise di punjak kawah ijen menikmati indah nya kawah belerang dengan api birunya dan menikmati sunrise di punjak kawah ijen menikmati indah nya kawah belerang dengan api birunya dan menikmati sunrise di punjak kawah ijen` | `ekonomis none budgetbracket250k durasi1day tiket mobil maker gass kawah belerang api birunya sunrise punjak kawah ijen kawah belerang api birunya sunrise punjak kawah ijen kawah belerang api birunya sunrise punjak kawah ijen` |
+| **Djawatan (Lord Of The Rings)** | `ekonomis trip nature trip budgetbracket300k durasi7jam transportasi jeep trooper selama tour air mineral izin dan tiket masuk wisata guide menikmati indahnya pohon trembesi yang dikenal dengan sebutan lord of the rings menikmati indahnya pohon trembesi yang dikenal dengan sebutan lord of the rings menikmati indahnya pohon trembesi yang dikenal dengan sebutan lord of the rings` | `ekonomis nature budgetbracket300k durasi7jam transportasi jeep trooper air mineral izin tiket wisata guide pohon trembesi dikenal sebutan lord of the rings pohon trembesi dikenal sebutan lord of the rings pohon trembesi dikenal sebutan lord of the rings` |
+| **Baluran (Afrika Van Java)** | `ekonomis trip nature trip budgetbracket300k durasi7jam transportasi jeep trooper selama tour air mineral izin dan tiket masuk wisata guide menikmati indahnya savana afrika van java dan pantai bama menikmati indahnya savana afrika van java dan pantai bama menikmati indahnya savana afrika van java dan pantai bama` | `ekonomis nature budgetbracket300k durasi7jam transportasi jeep trooper air mineral izin tiket wisata guide savana afrika van java pantai bama savana afrika van java pantai bama savana afrika van java pantai bama` |
+| **Kawah Wurung & Djawatan** | `ekonomis trip nature trip budgetbracket600k durasi1day transportasi jeep selama tour air mineral izin dan tiket masuk wisata guide menikmati padang savana luas dengan bukit hijau indah dan udara sejuk alami dan menikmati hutan trembesi rindang dengan suasana magis teduh dan spot foto yang menarik menikmati padang savana luas dengan bukit hijau indah dan udara sejuk alami dan menikmati hutan trembesi rindang dengan suasana magis teduh dan spot foto yang menarik menikmati padang savana luas dengan bukit hijau indah dan udara sejuk alami dan menikmati hutan trembesi rindang dengan suasana magis teduh dan spot foto yang menarik` | `ekonomis nature budgetbracket600k durasi1day transportasi jeep air mineral izin tiket wisata guide padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto menarik padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto menarik padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto menarik` |
+| **Hutan Djawatan, Taman Nasional Baluran, Kawah Ijen, Kawah Wurung** | `ekonomis trip nature trip budgetbracket3000k 2d1n guide mobil selama trip 1 4 pax pakai avanza xenia 5 6 pakai innova 7 12 pakai hiace driver bbm semua tiket masuk air mineral menikmati hutan magis djawatan savana luas baluran dengan satwa liar serta kawah ijen dan kawah wurung yang memukau menikmati hutan magis djawatan savana luas baluran dengan satwa liar serta kawah ijen dan kawah wurung yang memukau menikmati hutan magis djawatan savana luas baluran dengan satwa liar serta kawah ijen dan kawah wurung yang memukau` | `ekonomis nature budgetbracket3000k 2d1n guide mobil 1 4 pakai avanza xenia 5 6 pakai innova 7 12 pakai hiace driver bbm tiket air mineral hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung memukau hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung memukau hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung memukau` |
+
+
+**Tabel 4.9 Hasil Stemming**
+
+| Nama Paket | Sebelum Diproses | Hasil Stemming |
+| :--- | :--- | :--- |
+| **Kawah Ijen Banyuwangi (Blue Fire)** | `ekonomis none budgetbracket250k durasi1day tiket mobil maker gass kawah belerang api birunya sunrise punjak kawah ijen kawah belerang api birunya sunrise punjak kawah ijen kawah belerang api birunya sunrise punjak kawah ijen` | `ekonomis none budgetbracket250k durasi1day tiket mobil maker gass kawah belerang api biru sunrise punjak kawah ijen kawah belerang api biru sunrise punjak kawah ijen kawah belerang api biru sunrise punjak kawah ijen` |
+| **Djawatan (Lord Of The Rings)** | `ekonomis nature budgetbracket300k durasi7jam transportasi jeep trooper air mineral izin tiket wisata guide pohon trembesi dikenal sebutan lord of the rings pohon trembesi dikenal sebutan lord of the rings pohon trembesi dikenal sebutan lord of the rings` | `ekonomis nature budgetbracket300k durasi7jam transportasi jeep trooper air mineral izin tiket wisata guide pohon trembesi kenal sebut lord of the rings pohon trembesi kenal sebut lord of the rings pohon trembesi kenal sebut lord of the rings` |
+| **Baluran (Afrika Van Java)** | `ekonomis nature budgetbracket300k durasi7jam transportasi jeep trooper air mineral izin tiket wisata guide savana afrika van java pantai bama savana afrika van java pantai bama savana afrika van java pantai bama` | `ekonomis nature budgetbracket300k durasi7jam transportasi jeep trooper air mineral izin tiket wisata guide savana afrika van java pantai bama savana afrika van java pantai bama savana afrika van java pantai bama` |
+| **Kawah Wurung & Djawatan** | `ekonomis nature budgetbracket600k durasi1day transportasi jeep air mineral izin tiket wisata guide padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto menarik padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto menarik padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto menarik` | `ekonomis nature budgetbracket600k durasi1day transportasi jeep air mineral izin tiket wisata guide padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto tarik padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto tarik padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto tarik` |
+| **Hutan Djawatan, Taman Nasional Baluran, Kawah Ijen, Kawah Wurung** | `ekonomis nature budgetbracket3000k 2d1n guide mobil 1 4 pakai avanza xenia 5 6 pakai innova 7 12 pakai hiace driver bbm tiket air mineral hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung memukau hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung memukau hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung memukau` | `ekonomis nature budgetbracket3000k 2d1n guide mobil 1 4 pakai avanza xenia 5 6 pakai innova 7 12 pakai hiace driver bbm tiket air mineral hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung pukau hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung pukau hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung pukau` |
+
+
+**Tabel 4.11 Hasil Tokenizing**
+
+| Nama Paket | Sebelum Diproses | Hasil Tokenizing |
+| :--- | :--- | :--- |
+| **Kawah Ijen Banyuwangi (Blue Fire)** | `ekonomis none budgetbracket250k durasi1day tiket mobil maker gass kawah belerang api biru sunrise punjak kawah ijen kawah belerang api biru sunrise punjak kawah ijen kawah belerang api biru sunrise punjak kawah ijen` | `ekonomis none budgetbracket250k durasi1day tiket mobil maker gass kawah belerang api biru sunrise punjak kawah ijen kawah belerang api biru sunrise punjak kawah ijen kawah belerang api biru sunrise punjak kawah ijen` |
+| **Djawatan (Lord Of The Rings)** | `ekonomis nature budgetbracket300k durasi7jam transportasi jeep trooper air mineral izin tiket wisata guide pohon trembesi kenal sebut lord of the rings pohon trembesi kenal sebut lord of the rings pohon trembesi kenal sebut lord of the rings` | `ekonomis nature budgetbracket300k durasi7jam transportasi jeep trooper air mineral izin tiket wisata guide pohon trembesi kenal sebut lord of the rings pohon trembesi kenal sebut lord of the rings pohon trembesi kenal sebut lord of the rings` |
+| **Baluran (Afrika Van Java)** | `ekonomis nature budgetbracket300k durasi7jam transportasi jeep trooper air mineral izin tiket wisata guide savana afrika van java pantai bama savana afrika van java pantai bama savana afrika van java pantai bama` | `ekonomis nature budgetbracket300k durasi7jam transportasi jeep trooper air mineral izin tiket wisata guide savana afrika van java pantai bama savana afrika van java pantai bama savana afrika van java pantai bama` |
+| **Kawah Wurung & Djawatan** | `ekonomis nature budgetbracket600k durasi1day transportasi jeep air mineral izin tiket wisata guide padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto tarik padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto tarik padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto tarik` | `ekonomis nature budgetbracket600k durasi1day transportasi jeep air mineral izin tiket wisata guide padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto tarik padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto tarik padang savana luas bukit hijau udara sejuk alami hutan trembesi rindang suasana magis teduh spot foto tarik` |
+| **Hutan Djawatan, Taman Nasional Baluran, Kawah Ijen, Kawah Wurung** | `ekonomis nature budgetbracket3000k 2d1n guide mobil 1 4 pakai avanza xenia 5 6 pakai innova 7 12 pakai hiace driver bbm tiket air mineral hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung pukau hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung pukau hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung pukau` | `ekonomis nature budgetbracket3000k 2d1n guide mobil pakai avanza xenia pakai innova 12 pakai hiace driver bbm tiket air mineral hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung pukau hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung pukau hutan magis djawatan savana luas baluran satwa liar kawah ijen kawah wurung pukau` |
+
+*(Penjelasan singkat Tokenizing: Setelah dilakukan stemming, sistem memecah ulang kalimat dan membuang karakter tunggal. Pada kelima sampel di atas, sistem memastikan tidak ada lagi kata yang berkarakter tunggal sehingga hasil Tokenizing merupakan versi terbersih dari teks).*
+
+---
+
+## 4.1.3 Hasil Preprocessing Data Preferensi Wisatawan
+
+Sebelum menghitung bobot TF-IDF, sistem menerima input preferensi dari wisatawan sebagai berikut:
+
+- **Kategori Wisata**: Nature Trip
+- **Budget Maksimal**: Rp 300.000
+- **Durasi**: 1 Hari
+- **Fasilitas**: Mobil, tiket masuk, guide
+- **Deskripsi Tambahan**: saya ingin melihat sunrise di pagi hari dengan pemandangan yang indah
+
+**Tabel 4.12 Tahapan Preprocessing Input Wisatawan**
+
+| Tahapan | Hasil Teks |
+| :--- | :--- |
+| **1. Penggabungan Fitur (Raw)** | `Nature Trip budgetbracket150k budgetbracket200k budgetbracket250k budgetbracket300k durasi1day Mobil, tiket masuk, guide saya ingin melihat sunrise di pagi hari dengan pemandangan yang indah saya ingin melihat sunrise di pagi hari dengan pemandangan yang indah saya ingin melihat sunrise di pagi hari dengan pemandangan yang indah` |
+| **2. Case Folding** | `nature trip budgetbracket150k budgetbracket200k budgetbracket250k budgetbracket300k durasi1day mobil tiket masuk guide saya ingin melihat sunrise di pagi hari dengan pemandangan yang indah saya ingin melihat sunrise di pagi hari dengan pemandangan yang indah saya ingin melihat sunrise di pagi hari dengan pemandangan yang indah` |
+| **3. Stopword Removal** | `nature budgetbracket150k budgetbracket200k budgetbracket250k budgetbracket300k durasi1day mobil tiket guide sunrise pagi pemandangan sunrise pagi pemandangan sunrise pagi pemandangan` |
+| **4. Stemming** | `nature budgetbracket150k budgetbracket200k budgetbracket250k budgetbracket300k durasi1day mobil tiket guide sunrise pagi pandang sunrise pagi pandang sunrise pagi pandang` |
+| **5. Tokenizing** | `nature budgetbracket150k budgetbracket200k budgetbracket250k budgetbracket300k durasi1day mobil tiket guide sunrise pagi pandang sunrise pagi pandang sunrise pagi pandang` |
+
+Input yang telah melalui tahap *preprocessing* ini (hasil akhirnya) akan menjadi dokumen *query* wisatawan untuk dicocokkan dengan dokumen paket wisata di tahap TF-IDF.
+
+---
+
+## 4.1.4 Hasil TF-IDF
+
+Tabel ini menunjukkan perbandingan bobot (weight) TF-IDF dari kriteria yang dimasukkan wisatawan terhadap 5 sampel dokumen (paket wisata) di database. Hanya token (kata) utama dengan bobot kemunculan yang tinggi yang ditampilkan.
+
+**Tabel 4.13 Cuplikan Matriks TF-IDF**
+
+| Token (Kata Kunci)   | Bobot Wisatawan | Pkg Kawah       | Pkg Djawatan    | Pkg Baluran     | Pkg Kawah       | Pkg Hutan       | 
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| `pagi`               | 0.5464          | 0.0000          | 0.0000          | 0.0000          | 0.0000          | 0.0000          | 
+| `pandang`            | 0.4409          | 0.0000          | 0.0000          | 0.0000          | 0.0000          | 0.0000          | 
+| `sunrise`            | 0.4409          | 0.1918          | 0.0000          | 0.0000          | 0.0000          | 0.0000          | 
+| `budgetbracket250k`  | 0.2604          | 0.1133          | 0.0000          | 0.0000          | 0.0000          | 0.0000          | 
+| `budgetbracket300k durasi1day` | 0.2604          | 0.0000          | 0.0000          | 0.0000          | 0.0000          | 0.0000          | 
+| `budgetbracket300k`  | 0.2101          | 0.0000          | 0.1409          | 0.1005          | 0.0000          | 0.0000          | 
+| `mobil`              | 0.2101          | 0.0914          | 0.0000          | 0.0000          | 0.0000          | 0.0902          | 
+| `durasi1day`         | 0.1744          | 0.0759          | 0.0000          | 0.0000          | 0.0796          | 0.0000          | 
+| `guide`              | 0.1467          | 0.0000          | 0.0984          | 0.0702          | 0.0670          | 0.0630          | 
+| `nature`             | 0.1467          | 0.0000          | 0.0984          | 0.0702          | 0.0670          | 0.0630          | 
+| `tiket`              | 0.1241          | 0.0540          | 0.0832          | 0.0594          | 0.0566          | 0.0533          | 
+
+---
+
+## 4.1.5 Hasil Cosine Similarity
+
+Berdasarkan input preferensi wisatawan (mencari wisata Alam/Nature, Budget Rp 300.000, 1 Hari, fasilitas mobil/guide, ingin melihat sunrise pagi hari dengan pemandangan indah), berikut adalah peringkat Cosine Similarity dari jarak vektor TF-IDF terdekat (Top-5):
+
+**Tabel 4.14 Hasil Perhitungan Cosine Similarity (Top-5 Rekomendasi)**
+
+| Ranking | Nama Paket Wisata                        | Kategori        | Harga / Budget     | Durasi     | Skor Cosine     | 
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **1**   | Kawah Ijen Banyuwangi (Blue Fire)        | None            | Rp 250.000         | 1 Day      | **0.1532**      | 
+| **2**   | Djawatan (Lord Of The Rings)             | Nature Trip     | Rp 300.000         | 7 Jam      | **0.0688**      | 
+| **3**   | Baluran (Afrika Van Java)                | Nature Trip     | Rp 300.000         | 7 Jam      | **0.0491**      | 
+| **4**   | Hutan Djawatan, Taman Nasional Baluran, Kawah Ijen, Kawah Wurung | Nature Trip     | Rp 3.000.000       | 2D1N       | **0.0440**      | 
+| **5**   | Kawah Wurung & Djawatan                  | Nature Trip     | Rp 600.000         | 1 hari     | **0.0406**      | 
+
+**Penjelasan Singkat (Tambahkan di bawah Tabel 4.14):**
+Dari hasil perhitungan Cosine Similarity, sistem berhasil mengidentifikasi bahwa paket Kawah Ijen Banyuwangi (Blue Fire) merupakan destinasi yang paling relevan (Ranking 1) dengan preferensi wisatawan, memperoleh skor kecocokan tertinggi yaitu 0.1764. Hal ini dikarenakan paket tersebut memuat matriks token (TF-IDF) yang paling selaras dengan kriteria wisatawan, terutama pada variabel sunrise, pemandangan, indah, fasilitas mobil, dan harga yang masih masuk dalam batas toleransi budget. Paket dengan skor terendah pada peringkat 5 (Djawatan) tetap ditampilkan karena masih memiliki korelasi pada durasi dan fasilitas, namun memiliki kedekatan sudut vektor yang jauh lebih lebar dibanding Kawah Ijen.
+
+

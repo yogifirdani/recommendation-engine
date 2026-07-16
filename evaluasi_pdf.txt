@@ -1,0 +1,494 @@
+  
+OPEN ACCESS  
+ 
+ISSN 2356-5462 
+http://socj.telkomuniversity.ac.id/ijoict/   
+ 1 
+ 
+ 
+Intl. Journal on ICT 
+Vol. 9, No. 2, Dec 202 3. pp. 1-14 
+ doi: 10.21108/ijoict.v9i2.747  
+ 
+Received on 23 Jun 2023 . Revised on 24 Jul 2023 . Accepted and Published on 08 Dec 2023. 
+Movie Recommendation System Based on 
+Synopsis Using Content -Based Filtering with 
+TF-IDF and Cosine Similarity  
+Armadhani Hiro Juni Permana1, *Agung Toto Wibowo1 
+1School of Computing, Telkom University  
+Jl. Telekomunikasi 1 Terusan Buah Batu, Bandung, Jawa Barat, Indonesia  
+*agungtoto@telkomuniversity.ac.id
+Abstract  
+The recommendation systems have garnered significant attention in the fields of artificial 
+intelligence and data analysis. In the current era, the entertainment industry has experienced 
+substantial growth due to the widespread passion for film consumption.  The sheer number and 
+variety of films across different genres and titles pose a challenge for users in selecting suitable 
+movies. The creation of a vital recommendation system that offers film suggestions aligned with 
+user preferences and interests is cru cial to aid users in this process. This research investigates the 
+utilization of the TF -IDF algorithm and cosine similarity in the implementation of a content -based 
+filtering approach. In this  research , we examines the use of keyword extraction, and combination 
+keyword extraction with genre to recommend movies in content -based flavored. The research 
+employs a publicly dataset (MovieLens). Keywords are extracted from film synopses within the 
+dataset. We use several performance evaluation metrics such as prec ision, recall, and f1 -score. 
+Experimental findings indicate limitations in the film recommendation system's ability to provide 
+accurate and relevant suggestions to users. Specifically, the content -based filtering method with TF -
+IDF and cosine similarity, i ntegrating keyword extraction using the Gensim library, is less effective 
+in generating relevant film recommendations.  
+Keywords: Recommendation System;  Keyword Extraction;  Content -Based Filtering; TF -IDF; 
+Cosine Similarity.
+ 
+I. INTRODUCTION  
+HE world of entertainment, particularly the film industry, is experiencing rapid growth and popularity in 
+recent times. The increasing number of films being produced on a daily basis presents a challenge for 
+viewers who are faced with a wide range of choices [1]. This abundance of options is a common problem faced 
+by many users, making it difficult for them to find films that align with their preferences. Each user has their 
+own unique taste and interests, highlighting the importance of having a recommendation sy stem to assist in 
+narrowing down the selection process [2]. 
+A film recommendation system is designed to filter and refine user preferences, providing personalized film 
+recommendations based on individual interests and preferences [2]. User interests can be influenced by several 
+factors, such as genre, ratings, or even the film's synopsis [3]. There are content -based recommender system 
+which use item descriptions and genres [4] [5] . However, there is no research which use keyword extraction to  
+make a recommendation. Numerous studies have been conducted using various approaches to develop film T ARMADHANI  HIRO  JUNI  PERMANA  ET.AL.  
+MOVIE RECOMMENDATION SYSTEM BASED ON SYNOPSIS USING CONTENT -BASED FILTERING WITH TF-IDF  AND 
+COSINE SIMILARITY  2 
+ 
+ 
+recommendation systems. Collaborative filtering and content -based filtering are two widely adopted 
+methodologies in recommendation systems. Content -based filtering involves filtering content based on specific 
+information or attributes to generate recommend ations tailored to user profiles or interactions [6]. Conversely, 
+collaborative filtering focuses on identifying users with similar preferences and generating recommendations 
+based on the preferences of these similar users [7]. 
+In this research, we employ a content -based filtering approach utilizing the TF -IDF algorithm and cosine 
+similarity. This approach is chosen due to its ability to anticipate user preferences and generate film 
+recommendations based on content extracted from user histories or i nteractions. The dataset used in this study 
+consists of publicly available data (MovieLens) containing comprehensive film information. One crucial piece 
+of information is the film synopsis. We compare recommendation models based on genre, keywords, and a 
+combination of both variables. The synopses are extracted into keywords using the Python library, Gensim. We 
+use keyword extraction because it can take the essence of the story of a movie that users like. The essence can 
+be used as an attribute to provide recommendations based on the essence of similar movie stories. The keywords 
+are then processed using feature extraction utilizing the TF -IDF method. TF -IDF transforms each word in the 
+document into numerical values [8]. The similarity between films is computed using cosine similarity based on 
+these numerical values. The recommendation system generates film recommendations by considering the top -
+k films with the highest similarity scores , k represents the number of recommendations of items that have the 
+most similarity.  
+ 
+II. LITERATURE  REVIEW  
+A. Related Works  
+This study was grounded in a comprehensive review of relevant existing research sources, which 
+encompassed both the methodological approaches and the specific topic of interest. The primary objective of 
+incorporating these references was to establish a str ong theoretical foundation and ascertain the limitations 
+associated with the content -based filtering method in the context of film . 
+To ease human efforts in selecting movies, a content -based model has been built to provide movie 
+recommendations by analyzing movie descriptions. For example, when the movie "GoldenEye" was tested, the 
+model suggested "Skyfall". The model produced several similarities score:  66.73% (CountVectorizer), 13.14% 
+(Jaccard Recommender), 14.34% (TF -IDF Keyword), and 9.87% (TF -IDF Plot Overview).  The best 
+performance is shown by the calculation of similarity using CountVectorizer with a similarity value of 
+66.73%. [4]. 
+A content -based filtering method is proposed with recommendations based on specific topics that represent 
+aspects depicted in movies. WordNet and topic modeling are utilized to assign topics to movies based on their 
+plot summaries. The accuracy of this assignment is then manually calculated using popular Telugu movies on 
+IMDb. This approach represents a simplistic yet effective method for discerning the underlying topics within a 
+movie  [5]. 
+A study using the Cosine Similarity and K -Nearest Neighbors (KNN) algorithms with the aim of providing 
+accurate recommendations with reduced complexity. This recommendation system will recommend movies 
+based on cosine similarity. Subsequently, a normalized  popularity score will be utilized, incorporating KNN 
+functionality to obtain the nearest neighbors recommended to the user. The KNN algorithm is implemented in 
+this model along with the cosine similarity principle because it provides higher accuracy compa red to other 
+distance metrics, while maintaining relatively low complexity [7]. 
+The issues in Collaborative Filtering approaches, namely cold start, trust, and privacy. These three 
+weaknesses can sometimes be problematic, and important opportunities may be missed as a result. They created 
+a content -based filtering recommendation syste m using the cosine similarity algorithm. The process begins with 
+cleaning and constructing the dataset, then obtaining numerical features from the data. Next, the cosine  
+INTL.  JOURNAL  ON ICT  VOL.  9, NO.  2, DEC 2023 3 
+ 
+ 
+similarity function is applied to determine the similarity between users' previous preferences and available jobs. 
+Finally, the top job recommendations are obtained based on the scores derived from this similarity measure [9]. 
+The recommendation system implemented by Netflix utilizes similarity analysis through the application of 
+the Term Frequency -Inverse Document Frequency (TF -IDF) algorithm and Cosine Similarity , but the relevance 
+was limited due to the scarcity of occurrences in the corpus used. This recommendation system only utilized 
+the title and description as data. In other words, applying TF -IDF and Cosine Similarity algorithms on a limited 
+corpus like this would not produce meaningful outcomes  [10]. 
+A topic -based news recommendation system based on keyword extraction, e xperimental results 
+unequivocally support the notion that topic words can be derived effectively from daily keywords. Theoretical 
+analysis, complemented by extensive numerical experiments, substantiates the system's ability to enhance the 
+anticipated weigh ts of keywords and successfully identify pertinent keyword occurrences within a defined time 
+period. However, addressing the challenge of identifying and eliminating recurrent words, pa rticularly precise 
+nouns, remains an area that warrants additional research efforts. Moreover, it is important to acknowledge that 
+the dataset utilized in this study is relatively constrained, primarily focusing on the political domain [11]. 
+A recommendation system for Facebook photo posts based on a topic model, which can enhance the 
+engagement level of fan page posts. They devised an automated approach to streamline the process of selecting 
+posts for ad creation, effectively replacing manual selection tasks previously undertaken by social media 
+managers and alleviating their daily workload. By leveraging the Gensim module wi thin the topic modeling 
+framework, they transformed words into vectors and integrated them into the TF -IDF model. Throug h this 
+conversion, individual weight vectors were assigned to each word. Subsequently, these weighted vectors were 
+employed in conjunction with the Gensim library to determine the optimal number of topics, thereby generating 
+distinct LSI/LDA models for eva luating cosine similarity in relation to subsequent target posts  [12]. 
+B. Recommendation Systems  
+The recommendation system functions to provide product recommendations based on user preferences, past 
+history, and information to obtain desired products  [13]. The commonly used methods in building 
+recommendation systems are collaborative filtering and content -based filtering. Collaborative filtering is a 
+method used to evaluate and predict items based on the opinions and similarities of other users. On the oth er 
+hand, content -based filtering is a method used to recommend a product based on the availability of similar 
+content [14]. 
+The recommendation systems have been implemented across diverse domains, demonstrating their positive 
+influence. For example, within the e -commerce landscape in Indonesia, exemplified by Amazon and eBay, 
+recommender systems play a crucial role in presenting cus tomers with relevant products [15]. Similarly, the 
+music industry benefits from personalized recommendation algorithms on platforms like Spotify and Pandora, 
+which suggest music based on song genres, artists, and playlists to individual users [16]. Notably, platforms 
+like Netflix employ recommendation algorithms to provide movie suggestions aligned with users' interests, 
+viewing history, and ratings [10]. This can facilitate users in easily discovering content that aligns with their 
+interests, thus enhancing their satisfaction in their film -watching experience on these platforms.  
+C. Content -Based Filtering  
+Content -Based Filtering is a method of recommendation systems that relies on data or information about 
+users' preferences based on their past interactions. The algorithms used in content -based filtering attempt to 
+recommend items by measuring their similar ity to items that users have rated positively in the past. The most 
+suitable items are then recommended by comparing the similarity between the items previously rated by the 
+user and other items in the dataset [17]. 
+Several algorithms are commonly used in content -based recommendation systems. These include TF -IDF 
+(Term Frequency -Inverse Document Frequency), which calculates the importance of words in a film's 
+description or synopsis, and cosine similarity, which measu res the similarity between films based on their ARMADHANI  HIRO  JUNI  PERMANA  ET.AL.  
+MOVIE RECOMMENDATION SYSTEM BASED ON SYNOPSIS USING CONTENT -BASED FILTERING WITH TF-IDF  AND 
+COSINE SIMILARITY  4 
+ 
+ 
+feature vectors. Other algorithms such as decision trees and Bayesian classifiers can also be utilized for 
+classification and prediction tasks in content -based systems  [18]. 
+The input for content -based recommendation systems includes various film -related features. This ranges from 
+textual data such as film titles, genres, synopses, and user -generated tags to visual features like film posters or 
+even audio features like soundtr acks. However, in this study, we  will specifically focus on  movies domain with  
+the features of genres, keywords, and the combination of both. The combination of genre and keyword refers 
+to the merging of both features using concatenation operation. For ex ample, if a film 𝑖 has genre = {"action", 
+"comedy"} and keyword = {"woody", "birthday"}, the combination of features would be combination = 
+{"action", "comedy", "woody", "birthday"}. This is conducted  to compare the performance of different models 
+in generating optimal recommendations based on user preferences.  By leveraging these inputs, content -based 
+systems can capture the unique characteristics of films and generate recommendations that are tailored to the 
+user's preferences and interests.  
+D. Keyword Extraction for The Synopsis  
+The utilization of keywords in recommendation systems can provide several advantages. Keywords offer a 
+concise representation of the content and essence of an item, such as capturing the synopsis of a film. By 
+incorporating keywords, recommendation algorit hms can capture the core features and themes of an item, 
+enabling more precise matching with user preferences. Furthermore, keywords facilitate efficient and scalable 
+processing of large datasets. They provide a structured and standardized approach to repr esent the 
+characteristics of films, making it easier to retrieve and analyze relevant information  [19]. 
+Keyword extraction is the process of extracting keywords from a synopsis. The sentences in the synopsis are 
+often lengthy, requiring a process of extracting the essence and important words from those sentences. Keyword 
+extraction is performed using the Gen sim library in Python. Gensim is an open -source natural language 
+processing library in Python that can automatically extract keywords from documents and discover text 
+similarity. In this study, Gensim will be utilized as the keyword extractor [20]. 
+E. TF-IDF 
+TF-IDF stands for Term Frequency Inverse Document Frequency of Records. TF -IDF calculates the 
+relevance of a word within a document. The TF -IDF value of a word indicates its level of characterization in 
+the document. A higher value of a word signifies its importance in the document  [10]. Based on the above 
+explanation, TF-IDF is calculated using equation (1) as follows: : 
+𝑡𝑓𝑖𝑑𝑓 𝑖=𝑡𝑓𝑖× 𝑖𝑑𝑓 𝑖 (1) 
+In equation (1), 𝑡𝑓𝑖𝑑𝑓 𝑖 represents the calculation of Term Frequency Inverse Document Frequency for a term 
+(𝑖), which is obtained by multiplying the Term Frequency ( 𝑡𝑓𝑖) in equation (2) with the Inverse Document 
+Frequency ( 𝑖𝑑𝑓 𝑖) in equation (3). In this study, the term referred to can be a genre (e.g., "action") or a keyword 
+(e.g., "woody").  
+𝑡𝑓𝑖 = 𝑛𝑖,𝑢
+|𝑢| (2) 
+Where  𝑛𝑖,𝑢 represents the number of occurrences of the term 𝑖 in the film 𝑢 term list. Meanwhile, |𝑢| denotes 
+the length of the term possessed by film 𝑢. 
+𝑖𝑑𝑓𝑖  = 𝑙𝑜𝑔( |𝐷|
+𝑑𝑓𝑖 ) (3) 
+Wher e |𝐷| represents the total number of films in the dataset, and 𝑑𝑓𝑖 represents the number of documents that 
+contain the term 𝑖.  
+INTL.  JOURNAL  ON ICT  VOL.  9, NO.  2, DEC 2023 5 
+ 
+ 
+F. Cosine Similarity  
+Cosine similarity is an algorithm used to determine the similarity between a target data and a given set of 
+data. It measures the similarity between two documents based on their differences in size and calculates the 
+cosine angle between the two vectors in a multidimensional space. In this study, we leverage cosine similarity 
+as a computational measure to determine the presence or absence of specific terms in an item. Recommendations 
+are then formulated based on the degree of similarity between the respecti ve item and the active item associated 
+with a specific user. The probability of recommending an item to a user increases with higher levels of similarity 
+exhibited towards the active item. The application of cosine similarity requires treating the data obj ects in the 
+dataset as vectors, enabling comprehensive vector -based analysis and comparison. This approach facilitates the 
+efficient and accurate generation of recommendations in the research context [21]. Based on the above 
+explanation, cosine similarity is computed using the following formula:  
+𝐶𝑜𝑠(𝑥,𝑦)=𝑥 .𝑦
+‖𝑥‖∗ ‖𝑦‖ (4) 
+Where 𝐶𝑜𝑠(𝑥,𝑦) represent the calculation of cosine similarity between 𝑥 and 𝑦, 𝑥 is the vector obtained from 
+the TF -IDF calculation on the film chosen as the active item , and 𝑦 is the vector obtained from the TF -IDF 
+calculation on the film chosen as the reference item . ||𝑥|| denotes the unit length of vector x, while ||𝑦|| denotes 
+the unit length of vector y.  
+ 
+III. RESEARCH METHOD  
+In this phase, the recommendation method will be implemented by constructing the top -k similar item using 
+TF-IDF algorithm and cosine similarity.  Fig. 1 provides an overview of the system flow developed in this study.  
+ 
+Fig. 1. Recommendation System Flowchart  
+Based on Fig. 1, the system flow commences with the collection of data in CSV format, containing synopses. 
+The subsequent stage involves preprocessing, where the data is cleansed from noise and other disturbances. 
+Next, keyword extraction from synopses is performed using Gensim. Subsequently, feature extraction is 
+conducted using the TF -IDF method. The purpose of this feature extraction is to transform words into vectors 
+and obtain weights for each word.  
+ARMADHANI  HIRO  JUNI  PERMANA  ET.AL.  
+MOVIE RECOMMENDATION SYSTEM BASED ON SYNOPSIS USING CONTENT -BASED FILTERING WITH TF-IDF  AND 
+COSINE SIMILARITY  6 
+ 
+ 
+In the following stage, cosine similarity calculations are performed between every pair of items. The results 
+are then utilized to provide top -ranked film recommendations (top -k similarity) based on the calculated synopsis 
+similarity.  K represents the number of recommendations of items that have the most similarity.  Subsequently, 
+evaluation is carried out to measure the performance of the constructed model using precision, recall, and f1 -
+score metrics.  
+A. Data Collection  
+Data collection is conducted using a public dataset (MovieLens) consisting of seven CSV files: credits, 
+keywords, links, links_small, movies_metadata, ratings, and ratings_small. However, only the data from 
+movies_metadata, links_small, and ratings_small are utilized in this study. In the mov ies_metadata dataset, the 
+selected features include id, imdbId, title, genres, and overview. This dataset comprises 45,466 rows and 5 
+columns, providing valuable information about the films. As for the links_small and ratings_small data, they 
+are merged to  represent the complete film history, encompassing 99,806 rows and 10 columns, capturing the 
+viewing records of all users. The combined dataset incorporates features such as userId, movieId, rating, 
+timestamp, imdbId, tmdbId, id, title, genres, and synopsi s. Notably, the keywords data available in the dataset 
+is not used in its original form, as it will be replaced with keywords obtained through the keyword extraction 
+process conducted during the preprocessing stage. This data collection phase ensures the a vailability of 
+comprehensive and relevant information required for subsequent analysis and the development of an effective 
+recommendation system.  
+B. Data Pre -processing  
+The pre -processing stage is crucial in transforming raw data into a more usable format. It involves various 
+steps aimed at addressing incompleteness, inconsistencies, and irregularities within the data. The first step in 
+pre-processing is case folding, whi ch involves converting all uppercase letters to lowercase. This normalization  
+process ensures consistency and facilitates subsequent analysis and text mining tasks. Additionally, the 
+elimination of irrelevant words is performed using the nltk and sastrawi libraries. By removing stopwords and 
+non-relevant terms, the dataset becomes more focused and informative. Furthermore, data cleansing techniques 
+are applied to remove symbols and non -alphanumeric characters that may hinder the accuracy and reliability of 
+subsequent analyses. This step contributes to data standardization and ensures consistency in the dataset.  
+Table I provides an example  of pre -processing result  made to the data. By implementing these pre -processing 
+techniques, the research aims to improve the quality, integrity, and usability of the data, ultimately leading to 
+more accurate and insightful fin dings.  
+TABLE  I 
+EXAMPLE  OF DATA  PRE-PROCESSING  
+imdbId  Input  Output  
+862 Under the guidance of Woody, the toys 
+belonging to Andy enjoy a contented existence 
+within his room, until the arrival of Buzz 
+Lightyear on Andy's birthday. Overwhelmed 
+by the fear of losing his cherished position in 
+Andy's affections, Woody devises a scheme to 
+undermine Buzz. However, as fate intervenes 
+and separates Buzz and Woody from their 
+owner, the two eventually realize the 
+importance of setting aside t heir conflicts and 
+working together.  guidance woody toys belonging andy enjoy 
+contented existence within room arrival buzz 
+lightyear andys birthday overwhelmed fear 
+losing cherished position andys affections 
+woody devises scheme undermine buzz 
+however fate intervenes separates buzz woody 
+owne r two eventually realize importance 
+setting aside conflicts working together   
+INTL.  JOURNAL  ON ICT  VOL.  9, NO.  2, DEC 2023 7 
+ 
+ 
+C. Keyword Extraction  
+In the keyword extraction process, the dataset will be tagged using the Gensim library in Python. This process 
+involves identifying keywords that effectively describe the content of each synopsis. By extracting meaningful 
+keywords, the system aims to capture the essence of the synopses and improve the accuracy of the 
+recommendation process. Table II showcases a sam ple of the extracted keywords obtained through this 
+methodology.  
+TABLE  II 
+EXAMPLE  OF  KEYWORD  EXTRACTION  
+imdbId  Synopsis  Keyword  
+862 guidance woody toys belonging andy enjoy contented existence within room 
+arrival buzz lightyear andys birthday overwhelmed fear losing cherished 
+position andys affections woody devises scheme undermine buzz however fate 
+intervenes separates buzz woody owner two eventually realize importance 
+setting aside conflicts working together  woody   
+andys  
+buzz  
+birthday  
+D. Feature Extraction  
+In this phase, the preprocessed data will be transformed into vectors or matrices. In this study, the method 
+used is TF -IDF (Term Frequency - Inverse Document Frequency). TF -IDF is a widely used method in natural 
+language processing to measure the importan ce of terms in a document corpus. This method aims to highlight 
+the significance of terms by considering their frequency within a specific document and their inverse frequency 
+across the entire corpus. Through TF -IDF, relevant features are extracted from t extual data, enabling subsequent 
+analysis and modeling stages to effectively capture inherent patterns and semantic relationships. Table III 
+presents an example of the feature extraction results obtained through the TF -IDF method from the dataset used 
+in the program.  
+TABLE  III 
+THE RESULT  OF FEATURE  EXTRACTION  
+ Title  action  action  
+adventure  action  
+adventure  
+animation  … western 
+war western 
+war history  western 
+war 
+romance  
+tekkonkinkreet  0.233515  0.369521  0.607958  … 0 0 0 
+the sky crawlers  0.233515  0.369521  0.607958  … 0 0 0 
+superman/batman: 
+apocalypse  0.233515  0.369521  0.607958  … 0 0 0 
+justice league:  
+crisis on two earths  0.233515  0.369521  0.607958  … 0 0 0 
+batman vs. robin  0.233515  0.369521  0.607958  … 0 0 0 
+operator 13  0 0 0 … 0.359418  0 0.411079  
+the plainsman  0 0 0 … 0.428157  0.489698  0 
+for a few extra 
+dollars  0 0 0 … 0.825822  0 0 
+adios sabata  0.168587  0 0 … 0.554825  0 0 
+the deerslayer  0 0 0 … 0.526346  0 0 ARMADHANI  HIRO  JUNI  PERMANA  ET.AL.  
+MOVIE RECOMMENDATION SYSTEM BASED ON SYNOPSIS USING CONTENT -BASED FILTERING WITH TF-IDF  AND 
+COSINE SIMILARITY  8 
+ 
+ 
+E. Calculate Cosine Similarity  
+In the cosine similarity calculation phase, the similarity level between two document representation vectors 
+is measured. In the previous stage, the documents are transformed into numerical vector representations using 
+techniques like TF -IDF (Term Frequency -Inverse Document Freque ncy). Then, each document vector is 
+normalized by dividing it by its Euclidean norm. This is done to ensure that each document vector has a 
+consistent length, enabling objective comparisons of similarity between documents.  
+For example, we have a corpus of 10 documents based on the results of the previous tf -idf calculation. Next, 
+using the cosine similarity formula, the cosine angle between the two document representation vectors is 
+computed. This process yields a value ranging from -1 to 1, where a value of 1 indicates a high similarity 
+between the two documents, while a val ue of -1 indicates a high dissimilarity : 
+𝐶𝑜𝑠(𝑎𝑑𝑖𝑜𝑠  𝑠𝑎𝑏𝑎𝑡𝑎 ,𝑡ℎ𝑒 𝑝𝑙𝑎𝑖𝑛𝑠𝑚𝑎𝑛 )=𝑎𝑑𝑖𝑜𝑠  𝑠𝑎𝑏𝑎𝑡𝑎  .𝑡ℎ𝑒 𝑝𝑙𝑎𝑖𝑛𝑠𝑚𝑎𝑛
+‖𝑎𝑑𝑖𝑜𝑠  𝑠𝑎𝑏𝑎𝑡𝑎 ‖∗ ‖𝑡ℎ𝑒 𝑝𝑙𝑎𝑖𝑛𝑠𝑚𝑎𝑛 ‖  (5) 
+=(0.1687587 ∗0.0)+(0.0∗0.0)+(0.0∗0.0)+⋯+(0.554825 ∗0.428157 )+(0.0∗0.489698 )+(0.0∗0.0)
+(√0.1685872+ 0.02+ 0.02+⋯+ 0.5548252+ 0.02+ 0.02)∗(√0.02+ 0.02+ 0.02+⋯+ 0.4281572+ 0.4896982+ 0.02) 
+=0.348326  
+The calculation above yields a value of 0.348326. This indicates that there is a low similarity between the 
+films titled "Adios Sabata" and "The Plainsman" . Table IV presents the results of the cosine similarity 
+calculation based on the tfidf matrix calculation in the previous stage.  
+TABLE IV  
+THE RESULT OF  COSINE  SIMILARITY  CALCULATION  
+Title  tekkonkin  
+kreet  the sky 
+crawlers  superman/ 
+batman: 
+apocalypse  justice 
+league:  
+crisis on 
+two 
+earths  batman 
+vs. robin  operator 
+13 the 
+plainsman  for a few 
+extra 
+dollars  adios 
+sabata  the 
+deerslayer  
+tekkonkin  
+kreet  1 1 1 1 1 0 0 0 0.039368  0.055279  
+the sky 
+crawlers  1 1 1 1 1 0 0 0 0.039368  0.055279  
+superman/ 
+batman: 
+apocalypse  1 1 1 1 1 0 0 0 0.039368  0.055279  
+justice 
+league:  
+crisis on 
+two earths  1 1 1 1 1 0 0 0 0.039368  0.055279  
+batman vs. 
+robin  1 1 1 1 1 0 0 0 0.039368  0.055279  
+operator 
+13 0 0 0 0 0 1 0.272873  0.435224  0.292404  0.277394  
+the 
+plainsman  0 0 0 0 0 0.272873  1 0.518461  0.348326  0.330446   
+INTL.  JOURNAL  ON ICT  VOL.  9, NO.  2, DEC 2023 9 
+ 
+ 
+Title  tekkonkin  
+kreet  the sky 
+crawlers  superman/ 
+batman: 
+apocalypse  justice 
+league:  
+crisis on 
+two 
+earths  batman 
+vs. robin  operator 
+13 the 
+plainsman  for a few 
+extra 
+dollars  adios 
+sabata  the 
+deerslayer  
+for a few 
+extra 
+dollars  0 0 0 0 0 0.435224  0.518461  1 0.671846  0.637360  
+adios 
+sabata  0.039368  0.039368  0.039368  0.039368  0.039368  0.292404  0.348326  0.671846  1 0.428208  
+the 
+deerslayer  0.055279  0.055279  0.055279  0.055279  0.055279  0.277394  0.330446  0.637360  0.428208  1 
+F. Evaluation  
+In the evaluation phase, the performance of the recommendation system will be assessed . In this research, 
+performance evaluation metrics like precision, recall, and f1 -score are employed.  As previously mentioned, 
+these evaluation metrics will be computed using the equations ( 6) for precision, ( 7) for recall, and ( 8) for the 
+f1-score  [22]: 
+precision = 𝑇𝑃
+𝑇𝑃 + 𝐹𝑃 (6) 
+Where  𝑇𝑃 represents  the number of true positives, referring to the correct prediction of actual positive data as 
+positive. Meanwhile, 𝐹𝑃 represents the number of false positives, signifying the erroneous prediction of actual 
+negative data as positive. Precision is a measure that quantifies the ratio of  𝑇𝑃 to the total number of data 
+instances predicted as positive ( 𝑇𝑃 + 𝐹𝑃). 
+recall =  𝑇𝑃
+𝑇𝑃 + 𝐹𝑁 (7) 
+Where 𝐹𝑁 signifies the count of false negatives, indicating the cases where the actual positive data is mistakenly 
+predicted as negative. On the other hand, recall is a measure that calculates the ratio of   𝑇𝑃 to the total number 
+of actual positive data instances ( 𝑇𝑃 + 𝐹𝑁). 
+f1-score =  2 ∗ (𝑟𝑒𝑐𝑎𝑙𝑙  ∗ 𝑝𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛 )
+(𝑟𝑒𝑐𝑎𝑙𝑙  + 𝑝𝑟𝑒𝑐𝑖𝑠𝑖𝑜𝑛 ) (8) 
+The f1 -score is a metric that signifies the harmonic mean of recall and precision . It provides a balanced measure 
+that considers both precision and recall in a single metric.  
+ 
+IV. RESULTS AND DISCUSSION  
+This research utilizes a movie dataset consisting of 45,443 films and a total movie history of 99,806 records 
+from all users who have watched movies. These two datasets are merged using the Pandas Dataframe library in 
+the Python programming language. After  combining the two datasets, the data will be evaluated by computing 
+precision and recall based on the viewing history of each user for those movies.  
+A. Performance Evaluation  
+Throughout the evaluation process , we conducted experiments using two scenarios with an active item as the 
+query. The first scenario involves recommendations based on the active item's initial user rating, while the 
+second scenario focuses on recommendations based on the active item's user pr eferences.  ARMADHANI  HIRO  JUNI  PERMANA  ET.AL.  
+MOVIE RECOMMENDATION SYSTEM BASED ON SYNOPSIS USING CONTENT -BASED FILTERING WITH TF-IDF  AND 
+COSINE SIMILARITY  10 
+ 
+ 
+1) Testing Based on the First -Rated Active Item  
+In this testing phase, the researcher obtained user history data related to their film -watching activities. The 
+utilized data consisted of the initial film -watching histories of the users. This data will be used as a testing 
+sample for the developed recomm endation model. Subsequently, precision, recall, and f1 -score will be 
+calculated by comparing the recommendations provided by the model with the users' film -watching histories.  
+Table V  displays an example of films that are considered as active items based  on the first given rating.  
+TABLE  V 
+EXAMPLE OF  FILM SCENARIOS  BASED ON  THE FIRST  GIVEN  RATING  
+Name  Title  UserID  Rating  
+Hiro Toy Story  1 1 
+Jumanji  1 1 
+Grumpier Old Men  1 4 
+Waiting to Exhate  1 1 
+Father of the Bride Part II  1 4 
+Subdue  1 5 
+Century of Birthing  1 1 
+Budi  Grumpier Old Men  2 4 
+Father of the Bride Part II  2 3 
+Toy Story  2 3 
+Century of Birthing  2 4 
+Jumanji  2 2 
+2) Testing Based on the Active Item Preferred by Users  
+In this testing phase, the researchers collected user history data related to their film -watching activities. The 
+data used consisted of film -watching history data that had been liked by users, taking into account the ratings 
+given by those users. This study assumes that users who like a film will give ratings of 4 or 5. This data was 
+used as a testing sample for the evaluation of the system's performance.  Table VI displays examples of films 
+selected as active items based on user preferences.  
+TABLE  VI 
+EXAMPLE OF  FILM SCENARIOS  BASED  ON USER PREFERENCES  
+Name  Title  UserID  Rating  
+Hiro Toy Story  1 1 
+Jumanji  1 1 
+Grumpier Old Men  1 4 
+Waiting to Exhate  1 1 
+Father of the Bride Part II  1 4 
+Subdue  1 5 
+Century of Birthing  1 1 
+Budi  Grumpier Old Men  2 4 
+Father of the Bride Part II  2 3 
+Toy Story  2 3 
+Century of Birthing  2 4 
+Jumanji  2 2 
