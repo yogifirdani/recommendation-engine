@@ -277,55 +277,26 @@ def standardize_duration(duration_str):
 
 def build_combined_features(row):
     """
-    Menerima baris data dari tour_packages DataFrame, menggabungkan atribut-atributnya,
-    dan menerapkan pembersihan preprocessing lengkap sesuai dengan kriteria resmi penelitian:
-    Kategori Relasi, Kategori Wisata, Harga (dalam bentuk tag), Durasi (standar), Fasilitas, dan Deskripsi Paket.
+    Menerima baris data dari tour_packages DataFrame, dan HANYA mengambil
+    Deskripsi Paket (highlight) untuk diproses menjadi teks TF-IDF (Tahap 1).
+    Parameter lain (Budget, Kategori, Fasilitas) akan diproses terpisah di Tahap 2 (Filtering).
     """
-    category_name = str(row.get('category_name') or '')
-    tour_category = str(row.get('tour_category') or '')
-    
-    # Konversi harga ke tag budget TF-IDF
-    price_tags = get_package_price_tags(row.get('pax1'))
-    
-    # Standarisasi durasi
-    duration = standardize_duration(row.get('duration'))
-    
-    facilities_included = str(row.get('facilities_included') or '')
     highlight = str(row.get('highlight') or '')
+    
     # Berikan bobot lebih besar pada 'highlight' (deskripsi inti) dengan mengulanginya 3x
-    # Ini memastikan kata kunci unik wisata (seperti 'pantai', 'gunung') mengalahkan kata umum fasilitas.
+    # Ini memastikan kata kunci unik wisata (seperti 'pantai', 'gunung') sangat dipertimbangkan
     highlight_weighted = f"{highlight} " * 3
     
-    # Gabungkan kriteria resmi penelitian
-    combined = (
-        f"{category_name} {tour_category} {price_tags} {duration} {facilities_included} {highlight_weighted}"
-    )
-    
-    return preprocess(combined)
+    return preprocess(highlight_weighted)
 
 def build_preference_features(preference_dict):
     """
-    Menerima dictionary data preferensi wisatawan, menggabungkan atributnya,
-    dan menerapkan pembersihan preprocessing lengkap.
+    Menerima dictionary data preferensi wisatawan, dan HANYA mengambil
+    Deskripsi untuk diproses menjadi teks TF-IDF (Tahap 1).
     """
-    tour_category = str(preference_dict.get('tour_category') or '')
-    
-    # Konversi budget ke tag budget TF-IDF
-    budget_tags = get_user_budget_tags(preference_dict.get('budget'))
-    
-    # Standarisasi durasi preferensi
-    preferred_duration = standardize_duration(preference_dict.get('preferred_duration'))
-    
-    preferred_facilities = str(preference_dict.get('preferred_facilities') or '')
-    
     description = str(preference_dict.get('description') or '')
+    
     # Berikan bobot lebih besar pada 'description' (keinginan utama user) dengan mengulanginya 3x
-    # Ini memastikan intensi utama user (misal: 'snorkeling', 'laut') menang atas fasilitas umum (misal: 'mobil')
     description_weighted = f"{description} " * 3
     
-    # Gabungkan semua fitur preferensi menjadi satu string teks
-    pref = (
-        f"{tour_category} {budget_tags} {preferred_duration} {preferred_facilities} {description_weighted}"
-    )
-    
-    return preprocess(pref)
+    return preprocess(description_weighted)

@@ -1,0 +1,14 @@
+    Menerima baris data dari tour_packages DataFrame, menggabungkan atribut-atributnya,
+    dan menerapkan pembersihan preprocessing lengkap sesuai dengan kriteria resmi penelitian:
+    Kategori Relasi, Kategori Wisata, Harga (dalam bentuk tag), Durasi (standar), Fasilitas, dan Deskripsi Paket.
+    """
+    category_name = str(row.get('category_name') or '')
+    tour_category = str(row.get('tour_category') or '')
+    
+    # Konversi harga ke tag budget TF-IDF
+    price_tags = get_package_price_tags(row.get('pax1'))
+    
+    # Standarisasi durasi
+    duration = standardize_duration(row.get('duration'))
+    
+    facilities_included = str(row.get('facilities_included') or '')

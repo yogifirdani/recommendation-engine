@@ -10,11 +10,11 @@ Deskripsi: saya ingin melihat sunrise di pagi hari
 +------------+-----------------------------------------------+-----------------+
 | RANKING    | NAMA PAKET WISATA                             | SKOR COSINE     |
 +------------+-----------------------------------------------+-----------------+
-| 1          | Kawah Ijen Banyuwangi (Blue Fire)             | 0.1697          |
-| 2          | Kawah Wurung Trip                             | 0.1172          |
-| 3          | Tabuhan & Menjangan Island                    | 0.0672          |
-| 4          | Baluran (Afrika Van Java)                     | 0.0588          |
-| 5          | Djawatan, Green Island, Pulau Merah           | 0.0266          |
+| 1          | Kawah Ijen Banyuwangi (Blue Fire)             | 0.1691          |
+| 2          | Kawah Wurung Trip                             | 0.1073          |
+| 3          | Tabuhan & Menjangan Island                    | 0.0542          |
+| 4          | Baluran (Afrika Van Java)                     | 0.0348          |
+| 5          | Djawatan, Green Island, Pulau Merah           | 0.0105          |
 +------------+-----------------------------------------------+-----------------+
 
 * Catatan: Skor semakin mendekati 1.0000 berarti semakin cocok.
