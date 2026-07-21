@@ -100,6 +100,7 @@ def calculate_similarity(preference_vector, package_vectors_list):
     pref_vector_2d = preference_vector.reshape(1, -1)
     
     # Hitung cosine similarity
+    # Hasil berupa matriks berukuran (1, jumlah_paket)
     similarity_matrix = cosine_similarity(pref_vector_2d, pkg_matrix)
     
     # Ambil baris pertama dan konversikan menjadi list float
