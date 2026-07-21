@@ -108,7 +108,7 @@ def calculate_similarity(preference_vector, package_vectors_list):
     logger.info("Perhitungan Cosine Similarity selesai.")
     return scores
 
-def get_top_n(similarity_scores, package_ids, n=3):
+def get_top_n(similarity_scores, package_ids, n=5):
     """
     Memasangkan ID paket wisata dengan skor kemiripannya, mengurutkannya 
     secara menurun (descending), lalu mengambil N teratas.
