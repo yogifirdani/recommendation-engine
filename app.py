@@ -170,15 +170,64 @@ def recommend():
             package_vectors.append(vec_list)
             package_ids.append(int(row['package_id']))
             
-        # 8. Hitung Cosine Similarity
+        # 8. Hitung Cosine Similarity (Tahap 1: Pencarian Kemiripan Deskripsi)
         similarity_scores = calculate_similarity(preference_vector, package_vectors)
         
-        # 9. Dapatkan Top-5 paket rekomendasi teratas
-        top_recommendations = get_top_n(similarity_scores, package_ids, n=5)
-        
-        # 10. Ambil informasi detail paket aktif dari DB untuk memperkaya respon JSON
+        # 9. Terapkan Penyaringan Mutlak (Tahap 2, 3) & Pencocokan (Tahap 4)
         df_active = get_active_packages()
         active_packages_dict = df_active.set_index('id').to_dict(orient='index')
+        
+        pref_budget = float(preference.get('budget') or 0)
+        pref_category = str(preference.get('tour_category') or '').lower()
+        pref_duration = str(preference.get('preferred_duration') or '').lower()
+        pref_facilities = str(preference.get('preferred_facilities') or '').lower()
+        
+        filtered_packages = []
+        for pkg_id, score in zip(package_ids, similarity_scores):
+            if pkg_id not in active_packages_dict:
+                continue
+            pkg_info = active_packages_dict[pkg_id]
+            
+            # TAHAP 2: Penyaringan Budget (Buang jika over budget)
+            pkg_price = float(pkg_info['pax1']) if pkg_info['pax1'] is not None else 0.0
+            if pref_budget > 0 and pkg_price > pref_budget:
+                continue
+                
+            # TAHAP 3: Penyaringan Kategori (Buang jika beda kategori)
+            pkg_category = str(pkg_info.get('tour_category') or '').lower()
+            if pref_category and pref_category != 'semua kategori' and pkg_category != pref_category:
+                continue
+                
+            # TAHAP 4: Penyaringan Durasi & Fasilitas
+            pkg_duration = str(pkg_info.get('duration') or '').lower()
+            if pref_duration and pref_duration != 'semua durasi' and pref_duration not in pkg_duration:
+                continue
+                
+            pkg_facilities = str(pkg_info.get('facilities_included') or '').lower()
+            facilities_match = True
+            if pref_facilities:
+                # Cek apakah setiap kata kunci fasilitas yang direquest ada di dalam paket
+                for fac in pref_facilities.split():
+                    if fac not in pkg_facilities:
+                        facilities_match = False
+                        break
+            if not facilities_match:
+                continue
+                
+            # Jika lolos semua saringan mutlak, simpan kandidat
+            filtered_packages.append({
+                "package_id": pkg_id,
+                "similarity_score": round(float(score), 4)
+            })
+            
+        # 10. Pengurutan Akhir (Ranking) berdasarkan skor Cosine Similarity
+        sorted_packages = sorted(filtered_packages, key=lambda x: x["similarity_score"], reverse=True)
+        
+        # Ambil Top-3
+        top_recommendations = []
+        for i, item in enumerate(sorted_packages[:3], start=1):
+            item["rank"] = i
+            top_recommendations.append(item)
         
         enriched_data = []
         results_list = []      # Untuk kolom 'results' JSON array
