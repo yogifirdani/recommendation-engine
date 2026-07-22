@@ -181,12 +181,18 @@ def recommend():
         pref_category = str(preference.get('tour_category') or '').lower()
         pref_duration = str(preference.get('preferred_duration') or '').lower()
         pref_facilities = str(preference.get('preferred_facilities') or '').lower()
+        pref_description = str(preference.get('description') or '').strip()
         
         filtered_packages = []
         for pkg_id, score in zip(package_ids, similarity_scores):
             if pkg_id not in active_packages_dict:
                 continue
             pkg_info = active_packages_dict[pkg_id]
+            
+            # TAHAP 1.5: Penyaringan Kemiripan Teks
+            # Jika user mengisi deskripsi, TAPI skor paket ini 0.0 (artinya kata kuncinya tidak ada yang nyangkut satupun), buang paket ini!
+            if pref_description and float(score) <= 0.0:
+                continue
             
             # TAHAP 2: Penyaringan Budget (Buang jika over budget)
             pkg_price = float(pkg_info['pax1']) if pkg_info['pax1'] is not None else 0.0
@@ -198,11 +204,15 @@ def recommend():
             if pref_category and pref_category != 'semua kategori' and pkg_category != pref_category:
                 continue
                 
-            import re
-            
             # TAHAP 4: Penyaringan Durasi
-            pkg_duration = str(pkg_info.get('duration') or '').lower()
-            if pref_duration and pref_duration != 'semua durasi' and pref_duration not in pkg_duration:
+            from preprocessor import standardize_duration
+            pkg_duration_raw = str(pkg_info.get('duration') or '')
+            pref_duration_raw = str(preference.get('preferred_duration') or '')
+            
+            pkg_duration_std = standardize_duration(pkg_duration_raw)
+            pref_duration_std = standardize_duration(pref_duration_raw)
+            
+            if pref_duration_raw.lower() != 'semua durasi' and pref_duration_std not in pkg_duration_std:
                 continue
                 
             # Jika lolos saringan mutlak (Budget, Kategori, Durasi), simpan kandidat
@@ -251,6 +261,15 @@ def recommend():
         save_recommendation_result(preference_id, session_id, results_list, scores_dict)
         
         # 12. Kirim respon hasil rekomendasi
+        
+        # --- KODE UNTUK NGECEK SAJA (NANTI BISA DIHAPUS) ---
+        logger.info(f"--- DEBUG: Hasil Rekomendasi (Top 3) untuk ID Preferensi {preference_id} ---")
+        logger.info(f"Paket Lolos Saringan: {results_list}")
+        logger.info(f"Skor Cosine: {scores_dict}")
+        if not results_list:
+            logger.info("PERINGATAN: Hasil rekomendasi KOSONG. Kemungkinan besar karena Budget terlalu kecil, atau Kategori/Durasi tidak ada yang cocok di database.")
+        # ----------------------------------------------------
+
         return jsonify({
             "status": "success",
             "preference": {
