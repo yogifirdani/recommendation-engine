@@ -200,27 +200,12 @@ def recommend():
                 
             import re
             
-            # TAHAP 4: Penyaringan Durasi & Fasilitas
+            # TAHAP 4: Penyaringan Durasi
             pkg_duration = str(pkg_info.get('duration') or '').lower()
             if pref_duration and pref_duration != 'semua durasi' and pref_duration not in pkg_duration:
                 continue
                 
-            pkg_facilities = str(pkg_info.get('facilities_included') or '').lower()
-            facilities_match = True
-            if pref_facilities:
-                # Bersihkan tanda baca dari input fasilitas user (koma, titik, dll)
-                # lalu split berdasarkan spasi atau koma
-                requested_facilities = [f.strip() for f in re.split(r'[\s,]+', pref_facilities) if f.strip()]
-                
-                # Cek apakah setiap kata kunci fasilitas yang direquest ada di dalam paket
-                for fac in requested_facilities:
-                    if fac not in pkg_facilities:
-                        facilities_match = False
-                        break
-            if not facilities_match:
-                continue
-                
-            # Jika lolos semua saringan mutlak, simpan kandidat
+            # Jika lolos saringan mutlak (Budget, Kategori, Durasi), simpan kandidat
             filtered_packages.append({
                 "package_id": pkg_id,
                 "similarity_score": round(float(score), 4)
