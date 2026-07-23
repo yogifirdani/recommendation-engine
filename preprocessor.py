@@ -263,8 +263,11 @@ def standardize_duration(duration_str):
         return ""
     s = str(duration_str).lower()
     tags = []
-    if "7 jam" in s or "7 hour" in s or "7" in s:
-        tags.append("durasi7jam")
+    if "jam" in s or "hour" in s:
+        tags.append("durasijam")
+        # Logika: Trip dalam hitungan jam (setengah hari) adalah bagian dari trip 1 hari.
+        tags.append("durasi1day")
+        
     if "1 day" in s or "1 hari" in s or "one day" in s or "1d" in s:
         tags.append("durasi1day")
     if "2d1n" in s or "2 hari" in s or "2 day" in s or "2d" in s:
