@@ -31,7 +31,15 @@ def get_active_packages():
             tp.package_name AS name,
             tp.package_name_en AS name_en,
             tp.slug,
-            tp.price_1pax AS pax1,                  -- Menggunakan price_1pax riil AS pax1
+            LEAST(
+                COALESCE(NULLIF(tp.price_10pax, 0), 9999999999),
+                COALESCE(NULLIF(tp.price_8pax, 0), 9999999999),
+                COALESCE(NULLIF(tp.price_5pax, 0), 9999999999),
+                COALESCE(NULLIF(tp.price_4pax, 0), 9999999999),
+                COALESCE(NULLIF(tp.price_3pax, 0), 9999999999),
+                COALESCE(NULLIF(tp.price_2pax, 0), 9999999999),
+                COALESCE(NULLIF(tp.price_1pax, 0), 9999999999)
+            ) AS pax1,                  -- Menggunakan harga termurah dari semua varian pax
             tp.duration,
             tp.tour_category,                        -- Kriteria Kategori Wisata (alam, budaya, dll.)
             tp.destination AS destinations,          -- Menggunakan destination riil AS destinations
