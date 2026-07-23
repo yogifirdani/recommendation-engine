@@ -189,9 +189,16 @@ def recommend():
                 continue
             pkg_info = active_packages_dict[pkg_id]
             
-            # TAHAP 1.5: Penyaringan Kemiripan Teks
-            # Jika user mengisi deskripsi, TAPI skor paket ini 0.0 (artinya kata kuncinya tidak ada yang nyangkut satupun), buang paket ini!
-            if pref_description and float(score) <= 0.0:
+            # TAHAP 1.5: Penyaringan Kemiripan Teks (Conditional Rule)
+            # Cek apakah ada filter tambahan yang sedang aktif (selain deskripsi)
+            is_other_filters_active = (pref_budget > 0) or \
+                                      (pref_category and pref_category != 'semua kategori') or \
+                                      (pref_duration and pref_duration != 'semua durasi') or \
+                                      (pref_facilities and pref_facilities != '')
+
+            # Jika HANYA deskripsi yang diisi (filter lain kosong), skor teks wajib > 0.0
+            # Jika ADA filter lain yang diisi, skor teks 0.0 masih dimaafkan asalkan lolos filter lainnya
+            if pref_description and float(score) <= 0.0 and not is_other_filters_active:
                 continue
             
             # TAHAP 2: Penyaringan Budget (Buang jika over budget)
