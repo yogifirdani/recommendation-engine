@@ -204,7 +204,7 @@ def recommend():
             if pref_category and pref_category != 'semua kategori' and pkg_category != pref_category:
                 continue
                 
-            # TAHAP 4: Penyaringan Durasi
+            # TAHAP 4: Penyaringan Durasi (Sekarang Dimaafkan / Soft Filter)
             from preprocessor import standardize_duration
             pkg_duration_raw = str(pkg_info.get('duration') or '')
             pref_duration_raw = str(preference.get('preferred_duration') or '')
@@ -212,8 +212,11 @@ def recommend():
             pkg_duration_std = standardize_duration(pkg_duration_raw)
             pref_duration_std = standardize_duration(pref_duration_raw)
             
-            if pref_duration_raw.lower() != 'semua durasi' and pref_duration_std not in pkg_duration_std:
-                continue
+            # Alih-alih membuang paket (continue) jika durasi tidak cocok, kita memaafkannya.
+            # Namun, jika durasinya COCOK, kita berikan "Bonus Skor" agar paket ini naik ke peringkat atas!
+            if pref_duration_raw and pref_duration_raw.lower() != 'semua durasi' and pref_duration_raw.lower() != 'none':
+                if pref_duration_std and pref_duration_std in pkg_duration_std:
+                    score = float(score) + 0.5  # Bonus besar jika durasi cocok
                 
             # Jika lolos saringan mutlak (Budget, Kategori, Durasi), simpan kandidat
             filtered_packages.append({
