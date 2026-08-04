@@ -27,11 +27,7 @@ def fit_and_save_vectorizer(corpus_list):
         
     logger.info("Mulai melakukan pelatihan (fitting) TfidfVectorizer...")
     
-    # INIBAGIAN TF (TERM FREQUENCY)
-    # Inisialisasi vectorizer dengan parameter yang ditentukan
-    # sublinear_tf=True membantu menormalkan kata-kata yang muncul sangat sering
-    # ngram_range=(1, 2) mengizinkan kombinasi 2 kata (Bigram) agar konteks angka tidak tertukar
-    # contoh: "3 destinasi" dan "3 hari" akan dibaca berbeda, tidak hanya memisahkan angka "3".
+    
     vectorizer = TfidfVectorizer(
         analyzer='word', 
         ngram_range=(1, 2), 
@@ -39,8 +35,6 @@ def fit_and_save_vectorizer(corpus_list):
         sublinear_tf=True
     )
     
-    # Melatih model dan mentransformasikannya ke representasi matriks
-    # INI BAGIAN IDF (INVERSE DOCUMENT FREQUENCY)
     tfidf_matrix = vectorizer.fit_transform(corpus_list)
     
     # Menyimpan model ke berkas .pkl
@@ -50,12 +44,7 @@ def fit_and_save_vectorizer(corpus_list):
     return vectorizer, tfidf_matrix
 
 def load_vectorizer():
-    """
-    Memuat model TfidfVectorizer dari berkas .pkl yang sudah disimpan.
-    Akan melempar FileNotFoundError jika berkas model tidak ditemukan.
     
-    Return: TfidfVectorizer
-    """
     if not os.path.exists(MODEL_PATH):
         error_msg = f"Berkas model vectorizer tidak ditemukan di '{MODEL_PATH}'. Silakan jalankan endpoint /vectorize terlebih dahulu untuk melatih model."
         logger.error(error_msg)
@@ -66,13 +55,7 @@ def load_vectorizer():
     return vectorizer
 
 def transform_preference(vectorizer, preference_text):
-    """
-    Mentransformasikan preferensi pengguna menjadi vektor TF-IDF
-    berdasarkan ruang kosa kata (vocabulary) dari model yang telah dilatih.
-    PENTING: Menggunakan transform(), bukan fit_transform()!
     
-    Return: numpy 2D array (1, n_features)
-    """
     logger.info("Melakukan transformasi teks preferensi pengguna menjadi vektor...")
     # Masukkan sebagai list agar dapat diproses oleh vectorizer
     pref_matrix = vectorizer.transform([preference_text])
@@ -80,12 +63,7 @@ def transform_preference(vectorizer, preference_text):
     return pref_matrix.toarray()[0]
 
 def calculate_similarity(preference_vector, package_vectors_list):
-    """
-    Menghitung skor Cosine Similarity antara satu vektor preferensi 
-    dengan daftar vektor paket wisata yang ada.
     
-    Return: list of float (skor kemiripan tiap paket wisata)
-    """
     logger.info("Mulai menghitung nilai Cosine Similarity...")
     
     # Konversi list vektor dari DB menjadi 2D numpy array

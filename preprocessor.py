@@ -280,26 +280,25 @@ def standardize_duration(duration_str):
 
 def build_combined_features(row):
     """
-    Menerima baris data dari tour_packages DataFrame, dan HANYA mengambil
-    Deskripsi Paket (highlight) untuk diproses menjadi teks TF-IDF (Tahap 1).
-    Parameter lain (Budget, Kategori, Fasilitas) akan diproses terpisah di Tahap 2 (Filtering).
+    Menerima baris data dari destinations DataFrame, dan mengambil
+    Nama Destinasi, Kategori, Kota, serta Deskripsi untuk diproses menjadi teks TF-IDF.
     """
-    highlight = str(row.get('highlight') or '')
+    name = str(row.get('name') or '')
+    category = str(row.get('category') or '')
+    city = str(row.get('city') or '')
+    description = str(row.get('description') or '')
     
-    # Berikan bobot lebih besar pada 'highlight' (deskripsi inti) dengan mengulanginya 3x
-    # Ini memastikan kata kunci unik wisata (seperti 'pantai', 'gunung') sangat dipertimbangkan
-    highlight_weighted = f"{highlight} " * 3
+    # Gabungkan semua teks dengan bobot tertentu
+    # Nama dan Kategori diulang agar memiliki frekuensi lebih tinggi di TF-IDF
+    text_combined = f"{name} {name} {category} {category} {city} {description}"
     
-    return preprocess(highlight_weighted)
+    return preprocess(text_combined)
 
 def build_preference_features(preference_dict):
     """
-    Menerima dictionary data preferensi wisatawan, dan HANYA mengambil
-    Deskripsi untuk diproses menjadi teks TF-IDF (Tahap 1).
+    Menerima dictionary data preferensi wisatawan, dan mengambil
+    Deskripsi minat wisatawan untuk diproses menjadi teks TF-IDF.
     """
     description = str(preference_dict.get('description') or '')
     
-    # Berikan bobot lebih besar pada 'description' (keinginan utama user) dengan mengulanginya 3x
-    description_weighted = f"{description} " * 3
-    
-    return preprocess(description_weighted)
+    return preprocess(description)

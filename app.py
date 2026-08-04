@@ -7,7 +7,7 @@ import pandas as pd
 import numpy as np
 
 from database import (
-    get_active_packages,
+    get_active_destinations,
     get_preference_by_id,
     get_all_vectors,
     save_package_vector,
@@ -44,27 +44,27 @@ app.config['JSONIFY_PRETTYPRINT_REGULAR'] = True
 def vectorize():
     """
     Endpoint 1: POST /vectorize
-    Dipanggil Laravel saat admin melakukan tambah/edit/hapus paket wisata.
-    Melakukan ekstraksi teks, pembobotan TF-IDF baru, dan menyimpan ke database.
+    Dipanggil Laravel saat admin melakukan tambah/edit/hapus destinasi.
+    Melakukan ekstraksi teks destinasi, pembobotan TF-IDF baru, dan menyimpan ke database.
     """
-    logger.info("Menerima permintaan /vectorize untuk melatih ulang model TF-IDF...")
+    logger.info("Menerima permintaan /vectorize untuk melatih ulang model TF-IDF destinasi...")
     try:
-        # 1. Ambil paket aktif dari database
-        df_packages = get_active_packages()
-        if df_packages.empty:
-            logger.warning("Tidak ada paket wisata aktif yang ditemukan di database.")
+        # 1. Ambil destinasi aktif dari database
+        df_destinations = get_active_destinations()
+        if df_destinations.empty:
+            logger.warning("Tidak ada destinasi wisata aktif yang ditemukan di database.")
             return jsonify({
                 "status": "error",
-                "message": "Tidak ada data paket wisata aktif untuk divektorisasi."
+                "message": "Tidak ada data destinasi wisata aktif untuk divektorisasi."
             }), 404
             
-        # 2. Proses dan gabungkan fitur teks untuk setiap paket
+        # 2. Proses dan gabungkan fitur teks untuk setiap destinasi
         corpus = []
-        package_ids = []
-        for idx, row in df_packages.iterrows():
+        destination_ids = []
+        for idx, row in df_destinations.iterrows():
             combined_feat = build_combined_features(row)
             corpus.append(combined_feat)
-            package_ids.append(int(row['id']))
+            destination_ids.append(int(row['id']))
             
         # 3. Latih TfidfVectorizer baru dan simpan model
         vectorizer, tfidf_matrix = fit_and_save_vectorizer(corpus)
@@ -73,30 +73,30 @@ def vectorize():
         vocab_json_str = json.dumps(vectorizer.vocabulary_, sort_keys=True)
         vocab_hash = hashlib.sha256(vocab_json_str.encode('utf-8')).hexdigest()
         
-        # 5. Hapus semua vektor lama agar tidak tercampur dengan vektor baru yang berbeda dimensi
+        # 5. Hapus semua vektor lama di tabel destination_vectors
         clear_package_vectors()
         
         # 6. Konversi matriks TF-IDF sparse menjadi list rapat dan simpan ke database (Upsert)
-        for i, pkg_id in enumerate(package_ids):
+        for i, dest_id in enumerate(destination_ids):
             # Ubah baris sparse matrix ke dense list
             vector_dense = tfidf_matrix[i].toarray()[0].tolist()
             combined_text = corpus[i]
-            save_package_vector(pkg_id, combined_text, vector_dense, vocab_hash)
+            save_package_vector(dest_id, combined_text, vector_dense, vocab_hash)
             
-        # 6. Kirim respon sukses
+        # 7. Kirim respon sukses
         return jsonify({
             "status": "success",
-            "message": "Proses vektorisasi dan pelatihan ulang TF-IDF selesai dengan sukses.",
-            "total_paket": len(package_ids),
+            "message": "Proses vektorisasi destinasi dan pelatihan ulang TF-IDF selesai dengan sukses.",
+            "total_destinasi": len(destination_ids),
             "vocabulary_size": len(vectorizer.vocabulary_),
-            "packages_vectorized": package_ids
+            "destinations_vectorized": destination_ids
         }), 200
         
     except Exception as e:
         logger.error(f"Error pada endpoint /vectorize: {str(e)}")
         return jsonify({
             "status": "error",
-            "message": f"Terjadi kesalahan sistem saat vektorisasi: {str(e)}"
+            "message": f"Terjadi kesalahan sistem saat vektorisasi destinasi: {str(e)}"
         }), 500
 
 
@@ -105,9 +105,9 @@ def recommend():
     """
     Endpoint 2: POST /recommend
     Dipanggil Laravel saat wisatawan memasukkan preferensi pencarian.
-    Menerima preference_id, menghitung Cosine Similarity, dan menyimpan hasil rekomendasi.
+    Menerima preference_id, menghitung Cosine Similarity terhadap destinasi, dan menyimpan hasilnya.
     """
-    logger.info("Menerima permintaan rekomendasi paket wisata...")
+    logger.info("Menerima permintaan rekomendasi destinasi wisata...")
     
     # 1. Validasi input request body
     data = request.get_json(silent=True) or {}
@@ -139,140 +139,103 @@ def recommend():
                 "message": f"Model belum diinisialisasi. Silakan jalankan /vectorize terlebih dahulu. Error: {str(fnf_err)}"
             }), 503
             
-        # 4. Ambil semua vektor paket wisata yang ada di database
+        # 4. Ambil semua vektor destinasi yang ada di database
         df_vectors = get_all_vectors()
         if df_vectors.empty:
-            logger.warning("Tabel vektor paket wisata kosong.")
+            logger.warning("Tabel vektor destinasi kosong.")
             return jsonify({
                 "status": "error",
-                "message": "Proses vektorisasi paket belum pernah dijalankan. Jalankan /vectorize terlebih dahulu."
+                "message": "Proses vektorisasi destinasi belum pernah dijalankan. Jalankan /vectorize terlebih dahulu."
             }), 404
             
-        # 5. Gabungkan fitur preferensi pengguna dan preprocess
+        # 5. Gabungkan fitur preferensi pengguna (deskripsi minat)
         preference_text = build_preference_features(preference)
         logger.info(f"Teks preferensi terproses: '{preference_text}'")
         
         # 6. Transformasikan teks preferensi ke bentuk Vektor TF-IDF
         preference_vector = transform_preference(vectorizer, preference_text)
         
-        # 7. Siapkan data vektor paket untuk kalkulasi
-        package_ids = []
-        package_vectors = []
+        # 7. Siapkan data vektor destinasi untuk kalkulasi
+        destination_ids = []
+        destination_vectors = []
         
         for idx, row in df_vectors.iterrows():
             vec_data = row['tfidf_vector']
-            # Kadang SQLAlchemy mem-parsing JSON menjadi list Python secara otomatis, kadang string.
             if isinstance(vec_data, str):
                 vec_list = json.loads(vec_data)
             else:
                 vec_list = list(vec_data)
             
-            package_vectors.append(vec_list)
-            package_ids.append(int(row['package_id']))
+            destination_vectors.append(vec_list)
+            destination_ids.append(int(row['destination_id']))
             
-        # 8. Hitung Cosine Similarity (Tahap 1: Pencarian Kemiripan Deskripsi)
-        similarity_scores = calculate_similarity(preference_vector, package_vectors)
+        # 8. Hitung Cosine Similarity antara preferensi dan semua destinasi
+        similarity_scores = calculate_similarity(preference_vector, destination_vectors)
         
-        # 9. Terapkan Penyaringan Mutlak (Tahap 2, 3) & Pencocokan (Tahap 4)
-        df_active = get_active_packages()
-        active_packages_dict = df_active.set_index('id').to_dict(orient='index')
+        # 9. Terapkan Penyaringan Konten Terstruktur (Kategori Destinasi)
+        df_active_dest = get_active_destinations()
+        active_dest_dict = df_active_dest.set_index('id').to_dict(orient='index')
         
-        pref_budget = float(preference.get('budget') or 0)
-        pref_category = str(preference.get('tour_category') or '').lower()
-        pref_duration = str(preference.get('preferred_duration') or '').lower()
-        pref_facilities = str(preference.get('preferred_facilities') or '').lower()
-        pref_description = str(preference.get('description') or '').strip()
+        pref_category = str(preference.get('tour_category') or '').lower().strip()
         
-        filtered_packages = []
-        for pkg_id, score in zip(package_ids, similarity_scores):
-            if pkg_id not in active_packages_dict:
+        filtered_destinations = []
+        for dest_id, score in zip(destination_ids, similarity_scores):
+            if dest_id not in active_dest_dict:
                 continue
-            pkg_info = active_packages_dict[pkg_id]
+            dest_info = active_dest_dict[dest_id]
             
-            # TAHAP 1.5: Penyaringan Kemiripan Teks
-            # Jika user mengisi deskripsi, TAPI skor paket ini 0.0 (artinya kata kuncinya tidak ada yang nyangkut satupun), buang paket ini!
-            if pref_description and float(score) <= 0.0:
-                continue
-            
-            # TAHAP 2: Penyaringan Budget (Buang jika over budget)
-            pkg_price = float(pkg_info['pax1']) if pkg_info['pax1'] is not None else 0.0
-            if pref_budget > 0 and pkg_price > pref_budget:
-                continue
+            # Penyaringan Kategori (Jika kategori diinputkan dan tidak bernilai 'semua kategori')
+            dest_category = str(dest_info.get('category') or '').lower()
+            if pref_category and pref_category != 'semua kategori':
+                # Normalisasi teks kategori (misal: membuang whitespace dan mencocokkan kata kunci utama)
+                # Contoh: 'nature trip' harus bisa cocok dengan 'wisata alam / nature trip'
+                if pref_category not in dest_category:
+                    continue
                 
-            # TAHAP 3: Penyaringan Kategori (Buang jika beda kategori)
-            pkg_category = str(pkg_info.get('tour_category') or '').lower()
-            if pref_category and pref_category != 'semua kategori' and pkg_category != pref_category:
-                continue
-                
-            # TAHAP 4: Penyaringan Durasi (Sekarang Dimaafkan / Soft Filter)
-            from preprocessor import standardize_duration
-            pkg_duration_raw = str(pkg_info.get('duration') or '')
-            pref_duration_raw = str(preference.get('preferred_duration') or '')
-            
-            pkg_duration_std = standardize_duration(pkg_duration_raw)
-            pref_duration_std = standardize_duration(pref_duration_raw)
-            
-            # Alih-alih membuang paket (continue) jika durasi tidak cocok, kita memaafkannya.
-            # Namun, jika durasinya COCOK, kita berikan "Bonus Skor" agar paket ini naik ke peringkat atas!
-            if pref_duration_raw and pref_duration_raw.lower() != 'semua durasi' and pref_duration_raw.lower() != 'none':
-                if pref_duration_std and pref_duration_std in pkg_duration_std:
-                    score = float(score) + 0.5  # Bonus besar jika durasi cocok
-                
-            # Jika lolos saringan mutlak (Budget, Kategori, Durasi), simpan kandidat
-            filtered_packages.append({
-                "package_id": pkg_id,
+            filtered_destinations.append({
+                "destination_id": dest_id,
                 "similarity_score": round(float(score), 4)
             })
             
-        # 10. Pengurutan Akhir (Ranking) berdasarkan skor Cosine Similarity
-        sorted_packages = sorted(filtered_packages, key=lambda x: x["similarity_score"], reverse=True)
+        # 10. Pengurutan Akhir (Ranking) berdasarkan skor kemiripan tertinggi
+        sorted_destinations = sorted(filtered_destinations, key=lambda x: x["similarity_score"], reverse=True)
         
-        # Ambil Top-3
+        # Ambil Top-1 Destinasi Rekomendasi
         top_recommendations = []
-        for i, item in enumerate(sorted_packages[:3], start=1):
+        for i, item in enumerate(sorted_destinations[:1], start=1):
             item["rank"] = i
             top_recommendations.append(item)
         
         enriched_data = []
-        results_list = []      # Untuk kolom 'results' JSON array
-        scores_dict = {}       # Untuk kolom 'similarity_scores' JSON object
+        results_list = []      # ID destinasi terpilih
+        scores_dict = {}       # Skor similarity
         
         for item in top_recommendations:
-            pkg_id = item['package_id']
+            dest_id = item['destination_id']
             score = item['similarity_score']
             rank = item['rank']
             
-            results_list.append(pkg_id)
-            scores_dict[str(pkg_id)] = score
+            results_list.append(dest_id)
+            scores_dict[str(dest_id)] = score
             
-            if pkg_id in active_packages_dict:
-                pkg_info = active_packages_dict[pkg_id]
+            if dest_id in active_dest_dict:
+                dest_info = active_dest_dict[dest_id]
                 enriched_data.append({
                     "rank": rank,
-                    "package_id": pkg_id,
-                    "name": pkg_info['name'],
-                    "category": pkg_info['category_name'],
-                    "pax1": float(pkg_info['pax1']) if pkg_info['pax1'] is not None else 0.0,
-                    "duration": pkg_info['duration'],
-                    "location": pkg_info['location'],
+                    "destination_id": dest_id,
+                    "name": dest_info['name'],
+                    "category": dest_info['category'],
+                    "city": dest_info['city'],
+                    "description": dest_info['description'],
+                    "image": dest_info.get('image'),
                     "similarity_score": score,
-                    "slug": pkg_info['slug']
+                    "slug": dest_info['slug']
                 })
                 
-        # 11. Simpan hasil rekomendasi kembali ke tabel MySQL 'recommendations'
+        # 11. Simpan hasil rekomendasi ke tabel 'recommendations'
         session_id = preference.get('session_id', 'unknown')
         save_recommendation_result(preference_id, session_id, results_list, scores_dict)
         
-        # 12. Kirim respon hasil rekomendasi
-        
-        # --- KODE UNTUK NGECEK SAJA (NANTI BISA DIHAPUS) ---
-        logger.info(f"--- DEBUG: Hasil Rekomendasi (Top 3) untuk ID Preferensi {preference_id} ---")
-        logger.info(f"Paket Lolos Saringan: {results_list}")
-        logger.info(f"Skor Cosine: {scores_dict}")
-        if not results_list:
-            logger.info("PERINGATAN: Hasil rekomendasi KOSONG. Kemungkinan besar karena Budget terlalu kecil, atau Kategori/Durasi tidak ada yang cocok di database.")
-        # ----------------------------------------------------
-
         return jsonify({
             "status": "success",
             "preference": {

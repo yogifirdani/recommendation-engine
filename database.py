@@ -18,49 +18,32 @@ def get_connection():
     """Mengembalikan koneksi langsung dari engine SQLAlchemy"""
     return engine.connect()
 
-def get_active_packages():
+def get_active_destinations():
     """
-    Mengambil semua data paket wisata yang aktif (is_active = 1)
-    dan melakukan JOIN dengan tabel categories serta package_types.
+    Mengambil semua data destinasi wisata yang aktif (is_active = 1).
     
     Return: pandas DataFrame
     """
     query = """
         SELECT 
-            tp.id,
-            tp.package_name AS name,
-            tp.package_name_en AS name_en,
-            tp.slug,
-            LEAST(
-                COALESCE(NULLIF(tp.price_10pax, 0), 9999999999),
-                COALESCE(NULLIF(tp.price_8pax, 0), 9999999999),
-                COALESCE(NULLIF(tp.price_5pax, 0), 9999999999),
-                COALESCE(NULLIF(tp.price_4pax, 0), 9999999999),
-                COALESCE(NULLIF(tp.price_3pax, 0), 9999999999),
-                COALESCE(NULLIF(tp.price_2pax, 0), 9999999999),
-                COALESCE(NULLIF(tp.price_1pax, 0), 9999999999)
-            ) AS pax1,                  -- Menggunakan harga termurah dari semua varian pax
-            tp.duration,
-            tp.tour_category,                        -- Kriteria Kategori Wisata (alam, budaya, dll.)
-            tp.destination AS destinations,          -- Menggunakan destination riil AS destinations
-            tp.description AS highlight,             -- Menggunakan description riil AS highlight (Deskripsi Paket)
-            tp.facilities_included,
-            tp.city AS location,                     -- Menggunakan city riil AS location
-            tp.category_id,
-            c.category_name,
-            pt.type_name
-        FROM tour_packages tp
-        LEFT JOIN categories c ON tp.category_id = c.id
-        LEFT JOIN package_types pt ON tp.package_type_id = pt.id
-        WHERE tp.is_active = 1
+            id,
+            destination_name AS name,
+            slug,
+            city,
+            category,
+            address,
+            description,
+            image
+        FROM destinations
+        WHERE is_active = 1
     """
     try:
         with get_connection() as conn:
             df = pd.read_sql(query, conn)
-            logger.info(f"Berhasil mengambil {len(df)} paket wisata aktif dari database.")
+            logger.info(f"Berhasil mengambil {len(df)} destinasi aktif dari database.")
             return df
     except Exception as e:
-        logger.error(f"Gagal mengambil paket wisata aktif: {str(e)}")
+        logger.error(f"Gagal mengambil destinasi aktif: {str(e)}")
         raise e
 
 def get_preference_by_id(preference_id):
@@ -80,10 +63,8 @@ def get_preference_by_id(preference_id):
             up.preferred_duration,
             up.preferred_facilities,
             up.created_at,
-            up.updated_at,
-            c.category_name          -- JOIN ke kategori untuk melengkapi nama kategori
+            up.updated_at
         FROM user_preferences up
-        LEFT JOIN categories c ON up.category_id = c.id
         WHERE up.id = :preference_id
     """)
     try:
@@ -106,40 +87,40 @@ def get_preference_by_id(preference_id):
 
 def get_all_vectors():
     """
-    Mengambil semua data package_id, combined_features, dan tfidf_vector
-    dari tabel package_vectors.
+    Mengambil semua data destination_id, combined_features, dan tfidf_vector
+    dari tabel destination_vectors.
     
     Return: pandas DataFrame
     """
-    query = "SELECT package_id, combined_features, tfidf_vector FROM package_vectors"
+    query = "SELECT destination_id, combined_features, tfidf_vector FROM destination_vectors"
     try:
         with get_connection() as conn:
             df = pd.read_sql(query, conn)
-            logger.info(f"Berhasil mengambil {len(df)} data vektor dari database.")
+            logger.info(f"Berhasil mengambil {len(df)} data vektor destinasi dari database.")
             return df
     except Exception as e:
-        logger.error(f"Gagal mengambil data vektor paket wisata: {str(e)}")
+        logger.error(f"Gagal mengambil data vektor destinasi: {str(e)}")
         raise e
 
 def clear_package_vectors():
-    """Menghapus semua data di tabel package_vectors sebelum dilakukan vektorisasi ulang."""
-    query = text("DELETE FROM package_vectors")
+    """Menghapus semua data di tabel destination_vectors sebelum dilakukan vektorisasi ulang."""
+    query = text("DELETE FROM destination_vectors")
     try:
         with get_connection() as conn:
             conn.execute(query)
             conn.commit()
-        logger.info("Berhasil mengosongkan tabel package_vectors.")
+        logger.info("Berhasil mengosongkan tabel destination_vectors.")
     except Exception as e:
-        logger.error(f"Gagal mengosongkan tabel package_vectors: {str(e)}")
+        logger.error(f"Gagal mengosongkan tabel destination_vectors: {str(e)}")
         raise e
 
-def save_package_vector(package_id, combined_features, tfidf_vector_list, vocabulary_hash=None):
+def save_package_vector(destination_id, combined_features, tfidf_vector_list, vocabulary_hash=None):
     """
-    Menyimpan atau mengupdate vektor TF-IDF dari paket wisata ke database (UPSERT).
+    Menyimpan atau mengupdate vektor TF-IDF dari destinasi wisata ke database (UPSERT).
     """
     query = text("""
-        INSERT INTO package_vectors (package_id, combined_features, tfidf_vector, vocabulary_hash)
-        VALUES (:package_id, :combined_features, :tfidf_vector, :vocabulary_hash)
+        INSERT INTO destination_vectors (destination_id, combined_features, tfidf_vector, vocabulary_hash)
+        VALUES (:destination_id, :combined_features, :tfidf_vector, :vocabulary_hash)
         ON DUPLICATE KEY UPDATE
             combined_features = VALUES(combined_features),
             tfidf_vector = VALUES(tfidf_vector),
@@ -150,15 +131,15 @@ def save_package_vector(package_id, combined_features, tfidf_vector_list, vocabu
         tfidf_json_str = json.dumps(tfidf_vector_list)
         with get_connection() as conn:
             conn.execute(query, {
-                "package_id": package_id,
+                "destination_id": destination_id,
                 "combined_features": combined_features,
                 "tfidf_vector": tfidf_json_str,
                 "vocabulary_hash": vocabulary_hash
             })
             conn.commit()
-        logger.info(f"Berhasil menyimpan/mengupdate vektor paket ID: {package_id}")
+        logger.info(f"Berhasil menyimpan/mengupdate vektor destinasi ID: {destination_id}")
     except Exception as e:
-        logger.error(f"Gagal menyimpan vektor paket ID {package_id}: {str(e)}")
+        logger.error(f"Gagal menyimpan vektor destinasi ID {destination_id}: {str(e)}")
         raise e
 
 def save_recommendation_result(preference_id, session_id, results_list, scores_list):
