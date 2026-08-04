@@ -82,8 +82,8 @@ def run_evaluation():
     
     results = []
     
-    # Threshold Top-N (Sistem mengembalikan 5 teratas sebagai "Relevan" oleh sistem)
-    N = 5
+    # Threshold Top-N (Sistem mengembalikan 3 teratas sebagai "Relevan" oleh sistem)
+    N = 3
     
     print("=" * 80)
     print("PROSES EVALUASI SKENARIO (TANPA AKURASI)")

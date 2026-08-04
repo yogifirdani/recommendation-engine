@@ -9,14 +9,14 @@ ID 10: Kawah Wurung & Djawatan
 === TABEL EVALUASI METRIK ===
 
            Query/Skenario Precision Recall F1-Score
-        Sunrise Pagi Hari      0.40   1.00     0.57
-        Savana Ala Afrika      0.60   1.00     0.75
-     Hutan Trembesi Magis      0.40   1.00     0.57
-Padang Savana Bukit Hijau      0.20   0.50     0.29
-Eksplorasi Lengkap 2 Hari      0.20   0.50     0.29
-                    Total      1.80   4.00     2.46
-            Rata-rata (%)     36.00  80.00    49.29
+        Sunrise Pagi Hari      0.67   1.00     0.80
+        Savana Ala Afrika      0.67   0.67     0.67
+     Hutan Trembesi Magis      0.67   1.00     0.80
+Padang Savana Bukit Hijau      0.33   0.50     0.40
+Eksplorasi Lengkap 2 Hari      0.33   0.50     0.40
+                    Total      2.67   3.67     3.07
+            Rata-rata (%)     53.33  73.33    61.33
 
 
 === DRAFT NARASI KESIMPULAN ===
-Dari pengujian terhadap 5 skenario preferensi, dihasilkan matriks evaluasi yang cukup bervariasi dan realistis. Sistem mencatat skor rata-rata Precision sebesar 36.00%, Recall sebesar 80.00%, dan F1-Score 49.29%. Fluktuasi nilai metrik (khususnya Recall yang tidak selalu 100%) membuktikan bahwa performa rekomendasi algoritma TF-IDF sangat bergantung pada seberapa presisi kata kunci input wisatawan beririsan dengan ketersediaan paket-paket referensi di dalam database.
+Dari pengujian terhadap 5 skenario preferensi, dihasilkan matriks evaluasi yang cukup bervariasi dan realistis. Sistem mencatat skor rata-rata Precision sebesar 53.33%, Recall sebesar 73.33%, dan F1-Score 61.33%. Fluktuasi nilai metrik (khususnya Recall yang tidak selalu 100%) membuktikan bahwa performa rekomendasi algoritma TF-IDF sangat bergantung pada seberapa presisi kata kunci input wisatawan beririsan dengan ketersediaan paket-paket referensi di dalam database.
