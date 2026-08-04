@@ -44,11 +44,28 @@ def fit_and_save_vectorizer(corpus_list):
     return vectorizer, tfidf_matrix
 
 def load_vectorizer():
-    
     if not os.path.exists(MODEL_PATH):
-        error_msg = f"Berkas model vectorizer tidak ditemukan di '{MODEL_PATH}'. Silakan jalankan endpoint /vectorize terlebih dahulu untuk melatih model."
-        logger.error(error_msg)
-        raise FileNotFoundError(error_msg)
+        logger.warning(f"Berkas model vectorizer tidak ditemukan di '{MODEL_PATH}'. Melakukan inisialisasi otomatis...")
+        try:
+            from database import get_active_destinations
+            from preprocessor import build_combined_features
+            
+            # Ambil destinasi aktif
+            df_dest = get_active_destinations()
+            if df_dest.empty:
+                raise RuntimeError("Tidak ada destinasi aktif di database untuk melatih model.")
+                
+            # Bentuk korpus
+            corpus_list = df_dest.apply(build_combined_features, axis=1).tolist()
+            
+            # Latih dan simpan
+            vectorizer, _ = fit_and_save_vectorizer(corpus_list)
+            logger.info("Inisialisasi model otomatis berhasil diselesaikan.")
+            return vectorizer
+        except Exception as e:
+            error_msg = f"Gagal menginisialisasi model secara otomatis: {str(e)}"
+            logger.error(error_msg)
+            raise FileNotFoundError(error_msg)
         
     logger.info("Memuat model TfidfVectorizer dari berkas pkl...")
     vectorizer = joblib.load(MODEL_PATH)
