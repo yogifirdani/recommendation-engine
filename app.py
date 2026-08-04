@@ -200,11 +200,12 @@ def recommend():
         # 10. Pengurutan Akhir (Ranking) berdasarkan skor kemiripan tertinggi
         sorted_destinations = sorted(filtered_destinations, key=lambda x: x["similarity_score"], reverse=True)
         
-        # Ambil Top-1 Destinasi Rekomendasi
+        # Ambil Top-1 Destinasi Rekomendasi jika similarity score > 0
         top_recommendations = []
         for i, item in enumerate(sorted_destinations[:1], start=1):
-            item["rank"] = i
-            top_recommendations.append(item)
+            if item["similarity_score"] > 0:
+                item["rank"] = i
+                top_recommendations.append(item)
         
         enriched_data = []
         results_list = []      # ID destinasi terpilih

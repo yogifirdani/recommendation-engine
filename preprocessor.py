@@ -140,7 +140,16 @@ def case_folding(text):
     text = re.sub(r'[^a-zA-Z0-9\s]', ' ', text)
     # 3. Hapus spasi berlebih
     text = re.sub(r'\s+', ' ', text)
-    return text.strip()
+    # 4. Normalisasi ejaan kata pariwisata yang serupa
+    spelling_map = {
+        "sabana": "savana",
+        "savannah": "savana",
+        "island": "pulau",
+        "underwater": "bawah air"
+    }
+    words = text.split()
+    normalized_words = [spelling_map.get(w, w) for w in words]
+    return " ".join(normalized_words).strip()
 
 def remove_stopwords(text):
     """
