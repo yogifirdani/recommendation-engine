@@ -142,7 +142,6 @@ def case_folding(text):
     text = re.sub(r'\s+', ' ', text)
     # 4. Normalisasi ejaan kata pariwisata yang serupa
     spelling_map = {
-        "sabana": "savana",
         "savannah": "savana",
         "island": "pulau",
         "underwater": "bawah air"
