@@ -297,8 +297,10 @@ def build_combined_features(row):
     description = str(row.get('description') or '')
     
     # Gabungkan semua teks dengan bobot tertentu
-    # Nama dan Kategori diulang agar memiliki frekuensi lebih tinggi di TF-IDF
-    text_combined = f"{name} {name} {category} {category} {city} {description}"
+    # Nama diulang 5 kali dan Kategori diulang 3 kali untuk memperkuat bobot relevansi kata kunci
+    name_boost = " ".join([name] * 5)
+    category_boost = " ".join([category] * 3)
+    text_combined = f"{name_boost} {category_boost} {city} {description}"
     
     return preprocess(text_combined)
 
